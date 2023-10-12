@@ -3,6 +3,8 @@ import IndexViewVue from "@/modules/Inventory/IndexPage.vue";
 // Products
 import Products from "@/modules/Inventory/Products/IndexPage.vue";
 import AddProduct from "@/modules/Inventory/Products/AddProduct.vue";
+import ProductID from "@/modules/Inventory/Products/uuid/_uuid.vue"
+import EditProduct from "@/modules/Inventory/Products/uuid/EditProduct.vue"
 
 
 import Categories from "@/modules/Inventory/Categories/IndexPage.vue";
@@ -46,6 +48,34 @@ const router = [
           parent: "inventory",
           name: "Add product",
           header: "my account",
+          subParent: "products",
+          subName: "products",
+        },
+      },
+
+      {
+        path: "/product/:id",
+        name: "product-details",
+        component: ProductID,
+        meta: {
+          layout: "AppDashboardLayout",
+          parent: "inventory",
+          name: "Product Details",
+          header: "Product Details",
+          subParent: "products",
+          subName: "products",
+        },
+      },
+
+      {
+        path: "/product/:id/edit",
+        name: "edit-product",
+        component: EditProduct,
+        meta: {
+          layout: "AppDashboardLayout",
+          parent: "inventory",
+          name: "Edit Product",
+          header: "Edit Product",
           subParent: "products",
           subName: "products",
         },

@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div>
+  <div class="tw-sticky tw-top-0 tw-z-40 tw-bg-white tw-shadow">
     <div class="tw-relative tw-bg-white tw-py-4 tw-px-6">
       <div
         class="tw-flex tw-items-center tw-justify-between overflow-auto sm:tw-whitespace-nowrap"
@@ -19,18 +19,19 @@
           </div>
         </div>
         <div class="d-flex align-items-center" style="gap: 20px">
-        <span class="header-icon" role="button">
-          <i-icon icon="ion:notifications-outline" />
-        </span>
-        
+          <span class="header-icon" role="button">
+            <i-icon icon="ion:notifications-outline" />
+          </span>
 
-        <span class="d-flex align-items-center" style="gap: 5px">
-          <span class="header-icon notifications font-weight-bolder text-uppercase" >A</span>
-          <span class="text-capitalize" style="font-size: 14px">Hello</span>
-        </span>
+          <span class="d-flex align-items-center" style="gap: 5px">
+            <span
+              class="header-icon notifications font-weight-bolder text-uppercase"
+              >A</span
+            >
+            <span class="text-capitalize" style="font-size: 14px">Hello</span>
+          </span>
+        </div>
       </div>
-      </div>
-      
     </div>
   </div>
 </template>

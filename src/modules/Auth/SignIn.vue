@@ -1,7 +1,7 @@
 <template>
   <div class="auth-content">
     <div>
-      <div class="tw-mb-6">
+      <div class="tw-mb-4">
         <img src="@/assets/img/peppi-icon.svg" class="tw-h-12 tw-w-12" alt="" />
         <h5 class="tw-font-bold tw-text-2xl tw-mb-0">Welcome back,</h5>
         <small class="tw-text-light tw-text-xs"
@@ -10,12 +10,11 @@
       </div>
       <validation-observer v-slot="{ invalid, handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
-          <span v-if="error" class="tw-mb-2 error-alert">{{ error }}</span>
-
+          <span v-if="error" class="tw-mb-5 tw-block tw-text-xs tw-text-red-600">{{ error }}</span>
           <div>
             <validation-provider
-              name="username"
-              rules="required"
+              name="email"
+              rules="required|email"
               v-slot="{ dirty, invalid, errors }"
             >
               <label for="username">Email</label>
@@ -29,7 +28,7 @@
                   type="text"
                   name="text"
                   id="username"
-                  v-model="credentials.username"
+                  v-model="credentials.email"
                   placeholder="username"
                 />
                 <span class="email-iccon">
@@ -106,7 +105,7 @@
 </template>
 
 <script>
-// import { mapActions, mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   components: {},
   data: () => {
@@ -114,39 +113,38 @@ export default {
       credentials: {
         email: "",
         password: "",
-        username: ""
       },
       typePassword: true,
     };
   },
   methods: {
-    // ...mapActions("auth", ["loginUser"]),
+    ...mapActions("auth", ["loginUser"]),
 
     onSubmit() {
       let credentials = {
-        email: this.credentials.email,
+        login: this.credentials.email,
         password: this.credentials.password,
       };
       console.log(credentials);
-      this.$router.push('/analytics')
-      // this.loginUser(credentials)
+      // this.$router.push('/analytics')
+      this.loginUser(credentials)
     },
   },
 
   mounted() {
-    // this.$store.commit("auth/REMOVE_ERROR_SUCCESS");
+    this.$store.commit("auth/REMOVE_ERROR_SUCCESS");
   },
 
   watch: {},
 
   computed: {
-    // ...mapState("auth", {
-    //   loading: (state) => state.loading,
-    //   error: (state) => state.error,
-    //   errors: (state) => state.validationErrors,
-    //   user: (state) => state.user,
-    //   success: (state) => state.success,
-    // }),
+    ...mapState("auth", {
+      loading: (state) => state.loading,
+      error: (state) => state.error,
+      errors: (state) => state.validationErrors,
+      user: (state) => state.user,
+      success: (state) => state.success,
+    }),
   },
 };
 </script>

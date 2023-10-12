@@ -4,6 +4,8 @@ import Vuex from "vuex";
 // Modules
 import drawer from "./drawer"
 
+import auth from "./modules/auth"
+
 import createPersistedState from "vuex-persistedstate";
 
 Vue.use(Vuex);
@@ -16,6 +18,7 @@ export default new Vuex.Store({
   mutations: {},
   actions: {},
   modules: {
-    drawer
+    drawer,
+    auth
   },
 });

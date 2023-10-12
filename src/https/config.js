@@ -11,6 +11,7 @@ const config = {
     apiKey: process.env.VUE_APP_API_KEY,
   
     apiUrl: process.env.VUE_APP_API_URL,
+    imgUrl: process.env.VUE_APP_IMG_URL,
     domain: process.env.VUE_APP_DOMAIN,
   
     websocket: process.env.VUE_APP_WEBSOCKETS_SERVER,

@@ -13,24 +13,25 @@
               {{ $route.meta.parent.split("-")[0] }}
               <span class="tw-text-dark-100"> - </span>
             </span>
-            <span class="tw-capitalize">
+            <span class="tw-capitalize tw-text-gray400">
               {{ start_case($route.meta.name) }}</span
             >
           </div>
         </div>
-        <div class="d-flex align-items-center" style="gap: 20px">
-        <span class="header-icon" role="button">
-          <i-icon icon="ion:notifications-outline" />
-        </span>
-        
+        <div class="tw-flex tw-items-center tw-space-x-1">
+          <span class="header-icon" role="button">
+            <i-icon icon="ion:notifications-outline" />
+          </span>
 
-        <span class="d-flex align-items-center" style="gap: 5px">
-          <span class="header-icon notifications font-weight-bolder text-uppercase" >A</span>
-          <span class="text-capitalize" style="font-size: 14px">Hello</span>
-        </span>
+          <span class="d-flex align-items-center" style="gap: 5px">
+            <span
+              class="header-icon notifications font-weight-bolder text-uppercase"
+              >ABB</span
+            >
+            <span class="text-capitalize" style="font-size: 14px">Helllllo</span>
+          </span>
+        </div>
       </div>
-      </div>
-      
     </div>
     <div
       class="tw-cursor-pointer tw-py-4 tw-px-6 tw-bg-gray100 tw-flex tw-justify-end tw-items-center tw-list-none tw-text-gray2 tw-text-xs tw-font-medium tw-space-x-2"

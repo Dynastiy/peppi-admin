@@ -15,7 +15,11 @@
               role="button"
               class="tw-flex tw-justify-between tw-capitalize tw-text-semibold tw-block tw-p-3 tw-rounded-lg tw-text-[13px] hover:tw-bg-gray200 hover:tw-text-dark-300"
               @click="item.hasChildren ? openSubMenu(item) : goToLink(item)"
-              :class="[item.parent === routeParent ? 'tw-bg-white tw-text-dark-300' : 'tw-text-white']"
+              :class="[
+                item.parent === routeParent
+                  ? 'tw-bg-white tw-text-dark-300'
+                  : 'tw-text-white',
+              ]"
             >
               <div class="tw-flex tw-items-center tw-space-x-3">
                 <i-icon
@@ -55,7 +59,7 @@
                 @click="$router.push(subMenu.url)"
               >
                 <span
-                  class="sub-menu-items tw-text-xs tw-flex tw-space-x-2"
+                  class="sub-menu-items tw-text-xs tw-flex tw-space-x-2 tw-capitalize"
                   :class="[
                     subMenu.subItem === subMenuRouteName
                       ? 'tw-text-primary'
@@ -101,7 +105,6 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      //   subMenu: null,
       menu: [
         {
           title: "analytics",
@@ -126,7 +129,7 @@ export default {
               subItem: "products",
             },
             {
-              title: "Categories",
+              title: "categories",
               icon: "carbon:categories",
               url: "/inventory/categories",
               hasChildren: false,
@@ -134,7 +137,7 @@ export default {
               subItem: "categories",
             },
             {
-              title: "Users",
+              title: "users",
               icon: "ph:users-three",
               url: "/inventory/users",
               hasChildren: false,
@@ -189,7 +192,7 @@ export default {
     },
 
     subMenuRouteName() {
-      return this.$route.name;
+      return this.$route.meta.subName ;
     },
 
     routeParent() {

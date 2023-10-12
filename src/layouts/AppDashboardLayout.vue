@@ -3,7 +3,7 @@
     <div class="">
       <app-drawer />
       <div class="tw-pl-64 tw-w-full">
-        <top-bar :links="links" />
+        <top-bar class="" :links="links" />
         <!-- <app-header /> -->
           <div class="tw-p-6">
             <slot />

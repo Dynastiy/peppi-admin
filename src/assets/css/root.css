@@ -104,3 +104,8 @@ h1, h2, h3, h4, h5, h6, p {
     /* display: none; */
     box-shadow: 0 0 10px var(--primary-color), 0 0 5px var(--dark-300);
 }
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
