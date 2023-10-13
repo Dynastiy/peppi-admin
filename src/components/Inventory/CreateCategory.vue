@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-dialog
-      title="Add Category"
+      :title="title"
       :visible.sync="dialogVisible"
       :before-close="handleClose"
       width="30%"
@@ -80,7 +80,7 @@
               v-bind:disabled="invalid"
               :class="{ 'tw-bg-gray400': invalid, 'tw-bg-gray400': busy }"
             >
-              <span>Create</span>
+              <span>{{ editMode ? 'Update' : 'Create'}}</span>
             </button>
           </div>
         </form>
@@ -93,6 +93,20 @@
 export default {
   props: {
     visible: {
+      type: Boolean,
+      default: false,
+    },
+    title: {
+      type: String,
+      default: "",
+    },
+
+    data: {
+      type: Object,
+      default: () => {},
+    },
+
+    editMode: {
       type: Boolean,
       default: false,
     },
@@ -121,13 +135,14 @@ export default {
       const formData = new FormData();
       formData.append("category_name", this.dataObj.category_name);
       formData.append("icon_image", this.dataObj.icon_image);
+      var url = this.editMode ?  `admin/categories/update/${this.data.id}` : 'admin/categories/add'
       this.$request
-        .post(`admin/categories/add`, formData)
+        .post(`${url}`, formData)
         .then((res) => {
           console.log(res.data);
           this.busy = false;
           this.$toastify({
-            text: `Category Created`,
+            text: this.editMode ? `Category Updated` : "Category Created",
             className: "info",
             position: "center",
             style: {
@@ -143,7 +158,7 @@ export default {
           this.validationErrors = err.data.errors;
           console.log(err.data.errors);
           this.$toastify({
-            text: `Category not created`,
+            text: `Error`,
             className: "info",
             position: "center",
             style: {
@@ -157,6 +172,7 @@ export default {
     },
 
     handleClose() {
+      this.validationErrors = {}
       this.$emit("toggle");
     },
   },
@@ -167,6 +183,18 @@ export default {
         this.dialogVisible = val;
       },
       immediate: true,
+    },
+
+    data: {
+      handler(val) {
+        if (val) {
+          this.dataObj = {
+            category_name: val.category_name,
+            icon_image: val.icon_image,
+          };
+        }
+      },
+      immediate: true
     },
   },
 };

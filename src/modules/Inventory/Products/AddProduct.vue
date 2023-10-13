@@ -233,8 +233,8 @@ export default {
           let resPayload = res.data.categories;
           this.categories = resPayload;
           this.$swal.fire(
-            "Deleted!",
-            "Product deleted succesfully.",
+            "Successful!",
+            "Product added succesfully.",
             "success"
           );
           this.dataObj = {}
