@@ -31,29 +31,6 @@
       </table-component>
     </div>
 
-    <!-- <table-component
-      :items="pickup_locations"
-      :fields="fields"
-      :busy="busy"
-      :totalRows="totalRows"
-      :currentPage="currentPage"
-      :perPage="perPage"
-      :showFrom="showFrom"
-      :showTo="showTo"
-      :totalRecords="totalRecords"
-      @page-changed="list($event)"
-      :pages="pages"
-      @view="getCategory($event, 'view')"
-      @edit="getCategory($event, 'edit')"
-      @delete="deleteRecord"
-    >
-      <template #button>
-        <button class="peppi-btn peppi-primary" @click="toggleModal">
-          Add Category
-        </button>
-      </template>
-    </table-component> -->
-
     <!--Shipping Location Modal  -->
     <pickup-location-modal
       :visible="dialogVisible"
@@ -63,14 +40,22 @@
       :editMode="editMode"
       :data="singleRecord"
     />
+
+    <!-- View Pickup location Modal  -->
+    <view-pick-up-location
+      :data="singleRecord"
+      :visible="viewPickUpLocation"
+      @toggle="closePickLocationModal"
+    />
   </div>
 </template>
 
 <script>
 import PickupLocationModal from "@/components/Modals/Shipping/PickupLocationModal.vue";
 import TableComponent from "@/components/TableComponent.vue";
+import ViewPickUpLocation from "@/components/Modals/Shipping/ViewPickUpLocation.vue";
 export default {
-  components: { PickupLocationModal, TableComponent },
+  components: { PickupLocationModal, TableComponent, ViewPickUpLocation },
   data() {
     return {
       item: {},
@@ -104,9 +89,9 @@ export default {
           label: "Date Created",
         },
         {
-            key: 'actions',
-            label: ""
-        }
+          key: "actions",
+          label: "",
+        },
       ],
       totalRows: null,
       currentPage: null,
@@ -118,6 +103,7 @@ export default {
       title: "",
       editMode: false,
       id: this.$route.params.id,
+      viewPickUpLocation: false,
     };
   },
 
@@ -148,7 +134,7 @@ export default {
             this.editMode = true;
             this.toggleModal();
           } else {
-            this.viewCategory = true;
+            this.viewPickUpLocation = true;
           }
           this.busy = false;
         })
@@ -177,8 +163,8 @@ export default {
       this.list();
     },
 
-    closeCategory() {
-      this.viewLocationModal = !this.viewLocationModal;
+    closePickLocationModal() {
+      this.viewPickUpLocation = !this.viewPickUpLocation;
     },
 
     closeModal() {
@@ -191,12 +177,8 @@ export default {
       this.$request
         .post(`admin/pickup-locations/delete/${value.id}`)
         .then((res) => {
-            console.log(res);
-          this.$swal.fire(
-            "Deleted!",
-            `${res.data.message}`,
-            "success"
-          );
+          console.log(res);
+          this.$swal.fire("Deleted!", `${res.data.message}`, "success");
           this.list();
           return res;
         })
