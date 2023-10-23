@@ -146,11 +146,19 @@ export default {
             },
           ],
         },
+
         {
           title: "orders",
           icon: "carbon:ibm-watson-orders",
           parent: "orders",
           url: "/orders",
+          hasChildren: false,
+        },
+        {
+          title: "shipping",
+          icon: "mdi:locations-outline",
+          parent: "shipping",
+          url: "/shipping",
           hasChildren: false,
         },
         {

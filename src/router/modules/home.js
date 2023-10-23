@@ -2,6 +2,8 @@ import IndexViewVue from "@/modules/Home/IndexPage.vue";
 import Orders from "@/modules/Orders/IndexPage.vue";
 import Reviews from "@/modules/ReviewsAndRatings.vue";
 import UserProfile from "@/modules/UserProfile.vue";
+import Shipping from "@/modules/Shipping/IndexPage.vue";
+import ShippingDetails from "@/modules/Shipping/uuid/_uuid.vue";
 
 const router = [
   {
@@ -45,6 +47,29 @@ const router = [
       layout: "AppDashboardLayout",
       parent: "profile",
       name: "home",
+    },
+  },
+
+  {
+    path: "/shipping",
+    name: "shipping",
+    component: Shipping,
+    meta: {
+      layout: "AppDashboardLayout",
+      parent: "shipping",
+      name: "shipping",
+      header: "inventory",
+    },
+  },
+
+  {
+    path: "/shipping/state/:id",
+    name: "shipping-details",
+    component: ShippingDetails,
+    meta: {
+      layout: "AppDashboardLayout",
+      parent: "shipping",
+      name: "shipping",
     },
   },
 ];
