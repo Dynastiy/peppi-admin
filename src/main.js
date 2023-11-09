@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
+import moment from "moment";
 
 import "@/assets/css/style.css";
 
@@ -86,6 +87,23 @@ Vue.use(VueSweetalert2, {
     confirmButton: "tw-bg-green-600 tw-text-white tw-py-3",
     cancelButton: "tw-bg-red-600 tw-text-white tw-py-3",
   },
+});
+
+// Filters 
+Vue.filter("formatCurrency", function (value) {
+  if (!value) return "";
+  value = Number(value).toLocaleString("en-US", {
+    style: "currency",
+    currency: "NGN",
+  });
+  return value;
+});
+
+Vue.filter("formatDate", function (value) {
+  if (!value) return "";
+  let date = new Date(value);
+  value = moment(String(date)).format("MMM DD, YYYY");
+  return value;
 });
 
 

@@ -20,8 +20,8 @@
 
 /* INPUT  */
 .input-field {
-    border-width: 1px ;
-    border-color: var(--gray-400);
+    /* border-width: 1px ; */
+    /* border-color: var(--gray-400); */
     display: flex;
     display: inline-flex;
     display: -webkit-flex;
@@ -30,6 +30,7 @@
     padding-left: 12px;
     padding-right: 10px;
     align-items: center;
+    background: var(--gray-200) !important;
     /* border-radius: 5px; */
 }
 
@@ -221,6 +222,13 @@ form label {
 }
 
 /* Status  */
+.status {
+    width: 6px;
+    height: 6px;
+    display: block;
+    border-radius: 50%;
+}
+
 .canceled,
 .deactivated,
 .rejected,
@@ -228,11 +236,7 @@ form label {
 .out-of-stock,
 .not-registered,
 .inactive {
-    color: red;
-    background-color: rgba(255, 0, 0, 0.175);
-    font-size: 0.7rem;
-    padding: 0.2rem 1rem;
-    border-radius: 15px;
+    background-color: red;
 }
 
 .completed,
@@ -241,11 +245,11 @@ form label {
 .in-stock,
 .registered,
 .active {
-    color: green;
-    background-color: rgba(0, 128, 0, 0.175);
-    font-size: 0.7rem;
-    padding: 0.2rem 1rem;
-    border-radius: 15px;
+    background-color: green;
+}
+
+.pending {
+    background-color: orange;
 }
 
 /* Tabs  */

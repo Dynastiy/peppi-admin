@@ -1,7 +1,7 @@
 <template>
   <div
     id="app-drawer"
-    class="tw-flex tw-flex-col tw-justify-between tw-pt-6 tw-p-4 tw-pb-12 tw-bg-dark-100 tw-z-20 tw-fixed tw-left-0 tw-top-0 tw-h-screen tw-overflow-auto tw-w-64"
+    class="tw-flex tw-flex-col tw-justify-between tw-pt-6 tw-px-2 tw-py-4 tw-pb-12 tw-bg-dark-100 tw-z-20 tw-fixed tw-left-0 tw-top-0 tw-h-screen tw-overflow-auto tw-w-64"
   >
     <div>
       <div class="tw-flex tw-justify-center">
@@ -13,7 +13,7 @@
           <div class="menu-item">
             <span
               role="button"
-              class="tw-flex tw-justify-between tw-capitalize tw-text-semibold tw-block tw-p-3 tw-rounded-lg tw-text-[13px] hover:tw-bg-gray200 hover:tw-text-dark-300"
+              class="tw-flex tw-justify-between tw-capitalize tw-text-semibold tw-block tw-p-3 tw-rounded-[4px] tw-text-[13px] hover:tw-bg-gray200 hover:tw-text-dark-300"
               @click="item.hasChildren ? openSubMenu(item) : goToLink(item)"
               :class="[
                 item.parent === routeParent
@@ -21,7 +21,7 @@
                   : 'tw-text-white',
               ]"
             >
-              <div class="tw-flex tw-items-center tw-space-x-3">
+              <div class="tw-flex tw-items-center tw-gap-2">
                 <i-icon
                   :icon="item.icon"
                   v-if="item.icon"
@@ -59,7 +59,7 @@
                 @click="$router.push(subMenu.url)"
               >
                 <span
-                  class="sub-menu-items tw-text-xs tw-flex tw-space-x-2 tw-capitalize"
+                  class="sub-menu-items tw-text-xs tw-flex tw-gap-2 tw-capitalize"
                   :class="[
                     subMenu.subItem === subMenuRouteName
                       ? 'tw-text-primary'
@@ -154,27 +154,60 @@ export default {
           url: "/orders",
           hasChildren: false,
         },
+
         {
-          title: "shipping",
-          icon: "mdi:locations-outline",
-          parent: "shipping",
-          url: "/shipping",
+          title: "payments",
+          icon: "solar:card-outline",
+          parent: "payments",
+          url: "/payments",
           hasChildren: false,
         },
+        // {
+        //   title: "shipping",
+        //   icon: "mdi:locations-outline",
+        //   parent: "shipping",
+        //   url: "/shipping",
+        //   hasChildren: true,
+        //   children: [
+        //     {
+        //       title: "shipping locations",
+        //       icon: "mdi:locations-outline",
+        //       url: "/shipping/shipping-locations",
+        //       hasChildren: false,
+        //       parent: "shipping",
+        //       subItem: "shipping-locations",
+        //     },
+        //     {
+        //       title: "weight prices",
+        //       icon: "simple-icons:weightsandbiases",
+        //       url: "/weight-prices",
+        //       hasChildren: false,
+        //       parent: "shipping",
+        //       subItem: "weight-prices",
+        //     },
+        //   ],
+        // },
+        // {
+        //   title: "reviews and ratings",
+        //   icon: "material-symbols:share-reviews-outline",
+        //   parent: "reviews-and-ratings",
+        //   url: "/reviews-and-ratings",
+        //   hasChildren: false,
+        // },
         {
-          title: "reviews and ratings",
-          icon: "material-symbols:share-reviews-outline",
-          parent: "reviews-and-ratings",
-          url: "/reviews-and-ratings",
+          title: "configuration",
+          icon: "mingcute:settings-6-line",
+          parent: "configuration",
+          url: "/configuration",
           hasChildren: false,
         },
-        {
-          title: "profile",
-          icon: "gg:profile",
-          parent: "profile",
-          url: "/profile",
-          hasChildren: false,
-        },
+        // {
+        //   title: "profile",
+        //   icon: "gg:profile",
+        //   parent: "profile",
+        //   url: "/profile",
+        //   hasChildren: false,
+        // },
       ],
     };
   },

@@ -123,7 +123,7 @@
 
       <template #table-busy>
         <b-skeleton-table
-          :rows="4"
+          :rows="fields.length"
           :columns="4"
           :table-props="{ bordered: false, striped: false }"
         ></b-skeleton-table>
@@ -137,89 +137,39 @@
       <template #cell(name)="data">
         <span class="tw-capitalize">{{ data.item.name }}</span>
       </template>
+      <template #cell(item-status)="data">
+        <span class="tw-flex tw-items-center tw-gap-1">
+          <span class="status" :class="data.item.status"></span>
+          <span class="tw-text-[12px] tw-capitalize">{{
+            data.item.status
+          }}</span>
+        </span>
+      </template>
+      <!-- <template #cell(item-availability)="data">
+        
+        <span class="tw-flex tw-items-center tw-gap-1">
+          <span
+            class="tw-text-8 status"
+            :class="data.item.availability === 'yes' ? 'active' : 'inactive'"
+          ></span>
+          <span class="tw-text-[12px] tw-capitalize">{{
+            data.item.availability === "yes" ? "available" : "unavailable"
+          }}</span>
+        </span>
+      </template> -->
+
       <template #cell(availability)="data">
-        <span
-          class="tw-text-8"
-          :class="data.item.availability === 'yes' ? 'active' : 'inactive'"
-          >{{ data.item.availability === "yes" ? "available" : "unavailable" }}</span
-        >
+        <span class="tw-flex tw-items-center tw-gap-1">
+          <span
+            class="tw-text-8 status"
+            :class="data.item.availability === 'yes' ? 'active' : 'inactive'"
+          ></span>
+          <span class="tw-text-[12px] tw-capitalize">{{
+            data.item.availability === "yes" ? "available" : "unavailable"
+          }}</span>
+        </span>
       </template>
-      <template #cell(status)="data">
-        <slot name="status" :data="data">
-          <span
-            v-if="data.item.status === 'New'"
-            class="text-14 badge-warning rounded text-center p-1 text-white"
-            style="margin: 0"
-            >{{ data.item.status }}</span
-          >
-          <span
-            v-else-if="data.item.status === 'NS'"
-            class="text-14 badge-info rounded text-center p-1 text-white"
-          >
-            {{ data.item.status }}
-          </span>
-          <span
-            v-else-if="data.item.status === 'DONE'"
-            class="text-14 badge-info rounded text-center p-1 text-white"
-          >
-            {{ data.item.status }}
-          </span>
-          <span
-            v-else-if="data.item.status === 'IN PROGRESS'"
-            class="text-14 badge-info rounded text-center p-1 text-white"
-          >
-            {{ data.item.status }}
-          </span>
-          <span
-            v-else-if="data.item.status === 'DRAFT'"
-            class="text-12 badge-warning rounded text-center p-1 text-white"
-          >
-            {{ data.item.status }}
-          </span>
-          <span
-            v-else-if="data.item.status === 'APPROVED'"
-            class="text-12 badge-success rounded text-center p-1 text-white"
-          >
-            {{ data.item.status }}
-          </span>
-          <span
-            v-else-if="data.item.status === 'CANCELLED'"
-            class="text-12 badge-danger rounded text-center p-1 text-white"
-          >
-            {{ data.item.status }}
-          </span>
-          <span
-            v-else-if="data.item.status === 'REPORTED'"
-            class="text-12 badge-success rounded text-center p-1 text-white"
-          >
-            {{ data.item.status }}
-          </span>
-          <span
-            v-else-if="data.item.status === 'APPROVAL_REQUESTED'"
-            class="text-12 badge-warning rounded text-center p-1 text-white"
-          >
-            AWAITING APPROVAL
-          </span>
-          <span
-            v-else-if="data.item.status === 'PAID'"
-            class="text-12 badge-success rounded text-center p-1 text-white"
-          >
-            {{ data.item.status }}
-          </span>
-          <span
-            v-else-if="data.item.status === 'PARTIAL_PAY' || 'PARTIALLY_PAID'"
-            class="text-12 badge-warning rounded text-center p-1 text-white"
-          >
-            PARTIALLY PAID
-          </span>
-          <span
-            v-else-if="data.item.status === 'OPEN'"
-            class="text-12 badge-info rounded text-center p-1 text-white"
-          >
-            OPEN
-          </span>
-        </slot>
-      </template>
+
       <template #cell(encounter_datetime)="data">
         <slot name="encounter_datetime" :data="data">
           <div>
@@ -262,6 +212,11 @@
           </div>
         </slot>
       </template>
+      <template #cell(totalOrderAmount)="data">
+        <span>{{
+          (data.item.pivot.quantity * data.item.price) | formatCurrency
+        }}</span>
+      </template>
       <template #cell(createdAt)="data">
         <slot name="createdAt" :data="data">
           <div>
@@ -276,9 +231,17 @@
         </slot>
       </template>
       <template #cell(dots)="row">
-        <b-dropdown variant="link" toggle-class="text-decoration-none" no-caret>
+        <b-dropdown
+          variant="link"
+          toggle-class="text-decoration-none tw-text-dark100"
+          no-caret
+          v-if="row.item.status === 'pending'"
+        >
           <template #button-content>
-            <b-icon icon="three-dots-vertical" class="dot"></b-icon>
+            <!-- <b-icon icon="three-dots-vertical" class="dot"></b-icon> -->
+            <span class="tw-text-dark100 tw-font-bold">
+              <i-icon icon="iconamoon:menu-kebab-vertical-bold" />
+            </span>
           </template>
           <template v-if="dropdownItem.length > 0">
             <b-dropdown-item
@@ -525,5 +488,9 @@ export default {
 .empty {
   width: 150px;
   height: 150px;
+}
+
+.dropdown-item {
+  font-size: 13px;
 }
 </style>

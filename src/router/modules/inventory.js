@@ -11,6 +11,7 @@ import Categories from "@/modules/Inventory/Categories/IndexPage.vue";
 
 // Users 
 import Users from "@/modules/Inventory/Users/IndexPage.vue";
+import UserDetails from "@/modules/Inventory/Users/uuid/_uuid.vue"
 
 const router = [
   {
@@ -103,6 +104,20 @@ const router = [
           parent: "inventory",
           name: "Users",
           header: "my account",
+          subName: "users",
+        },
+      },
+
+      {
+        path: "/users/:id",
+        name: "view-user",
+        component: UserDetails,
+        meta: {
+          layout: "AppDashboardLayout",
+          parent: "inventory",
+          name: "Users",
+          header: "Users",
+          subParent: "users",
           subName: "users",
         },
       },

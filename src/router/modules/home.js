@@ -1,9 +1,18 @@
 import IndexViewVue from "@/modules/Home/IndexPage.vue";
+
 import Orders from "@/modules/Orders/IndexPage.vue";
+import OrderDetails from "@/modules/Orders/uuid/_uuid.vue";
+
+import Payments from "@/modules/Payments/IndexPage.vue";
+import PaymentDetails from "@/modules/Payments/uuid/_uuid.vue";
+
 import Reviews from "@/modules/ReviewsAndRatings.vue";
 import UserProfile from "@/modules/UserProfile.vue";
-import Shipping from "@/modules/Shipping/IndexPage.vue";
-import ShippingDetails from "@/modules/Shipping/uuid/_uuid.vue";
+
+import ShippingDetails from "@/modules/Configuration/ShippingID.vue";
+
+import Configuration from "@/modules/Configuration/IndexPage.vue";
+
 
 const router = [
   {
@@ -24,6 +33,39 @@ const router = [
     meta: {
       layout: "AppDashboardLayout",
       parent: "orders",
+      name: "home",
+    },
+  },
+
+  {
+    path: "/order/:id",
+    name: "order-details",
+    component: OrderDetails,
+    meta: {
+      layout: "AppDashboardLayout",
+      parent: "orders",
+      name: "home",
+    },
+  },
+
+  {
+    path: "/payments",
+    name: "payments",
+    component: Payments,
+    meta: {
+      layout: "AppDashboardLayout",
+      parent: "payments",
+      name: "home",
+    },
+  },
+
+  {
+    path: "/payment/:id",
+    name: "payment-details",
+    component: PaymentDetails,
+    meta: {
+      layout: "AppDashboardLayout",
+      parent: "payments",
       name: "home",
     },
   },
@@ -51,24 +93,23 @@ const router = [
   },
 
   {
-    path: "/shipping",
-    name: "shipping",
-    component: Shipping,
+    path: "/configuration",
+    name: "configuration",
+    component: Configuration,
     meta: {
       layout: "AppDashboardLayout",
-      parent: "shipping",
-      name: "shipping",
-      header: "inventory",
+      parent: "configuration",
+      name: "home",
     },
   },
 
   {
-    path: "/shipping/state/:id",
+    path: "/configuration/shipping/:id",
     name: "shipping-details",
     component: ShippingDetails,
     meta: {
       layout: "AppDashboardLayout",
-      parent: "shipping",
+      parent: "configuration",
       name: "shipping",
     },
   },

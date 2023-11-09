@@ -7,8 +7,41 @@
         width="30%"
       >
         <validation-observer v-slot="{ invalid, handleSubmit }">
-          <form @submit.prevent="handleSubmit(onSubmit)">
+          <form class="tw-flex tw-flex-col tw-gap-3" @submit.prevent="handleSubmit(onSubmit)">
             <div>
+              <validation-provider
+                name="name"
+                rules="required"
+                v-slot="{ dirty, invalid, errors }"
+              >
+                <label for="name">Name</label>
+                <div
+                  class="input-field"
+                  :class="{
+                    error: dirty && invalid,
+                  }"
+                >
+                  <input
+                    type="text"
+                    name="text"
+                    id="name"
+                    v-model="dataObj.name"
+                    placeholder="Name"
+                  />
+                </div>
+                <span class="tw-text-xs tw-block tw-text-red-600" v-if="errors">{{
+                  errors[0]
+                }}</span>
+                <span
+                  class="tw-mb-5 tw-block tw-text-xs tw-text-red-600"
+                  v-for="error in validationErrors.name"
+                  :key="error"
+                  >{{ error }}</span
+                >
+              </validation-provider>
+            </div>
+
+            <!-- <div>
               <validation-provider
                 name="Shipping Fee"
                 rules="required|numeric"
@@ -39,7 +72,7 @@
                   >{{ error }}</span
                 >
               </validation-provider>
-            </div>
+            </div> -->
 
             <div>
               <validation-provider
@@ -54,7 +87,7 @@
                     error: dirty && invalid,
                   }"
                 >
-                  <textarea class="tw-w-full tw-border-0 tw-outline-0 tw-py-3" v-model="dataObj.address" name="" id="" cols="30" rows="5">
+                  <textarea class="tw-w-full tw-border-0 tw-outline-0 tw-py-3" v-model="dataObj.address" name="" id="" cols="30" rows="4">
 
                   </textarea>
                 </div>
@@ -112,6 +145,7 @@
         dataObj: {
           shipping_fee: "",
           address: "",
+          name: "",
         },
         busy: false,
         validationErrors: {},
@@ -126,8 +160,10 @@
         const payload = {
           shipping_fee: this.dataObj.shipping_fee,
           address: this.dataObj.address,
+          name: this.dataObj.name,
           state_id: this.$route.params.id
         }
+        console.log(payload);
         var url = this.editMode ?  `/admin/pickup-locations/update/${this.data.id}` : 'admin/pickup-locations/add'
         this.$request
           .post(`${url}`, payload)
@@ -145,13 +181,17 @@
               },
             }).showToast();
             this.dataObj.name = ""
+            this.dataObj.shipping_fee = "";
+            this.dataObj.address = "";
             this.$emit("done");
           })
           .catch((err) => {
             this.busy = false;
             this.validationErrors = err.data.errors;
             console.log(err.data.errors);
-            this.dataObj.name = ""
+            this.dataObj.name = "";
+            this.dataObj.shipping_fee = "";
+            this.dataObj.address = "";
             this.$toastify({
               text: `Error`,
               className: "info",
@@ -186,6 +226,7 @@
             this.dataObj = {
               shipping_fee: val.shipping_fee,
               address: val.address,
+              name: val.name,
             };
           }
         },

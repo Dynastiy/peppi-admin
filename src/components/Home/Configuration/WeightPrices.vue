@@ -1,80 +1,52 @@
 <template>
   <div>
-    <div class="tw-mb-4">
-      <h4 class="tw-mb-0 tw-font-semibold">
-        {{ item.name }}
-      </h4>
-      <span class="tw-text-xs tw-text-primary">
-        {{
-          `(${item.pickup_locations.length} pickup location${
-            item.pickup_locations.length > 1 ? "s" : ""
-          })`
-        }}
-      </span>
+    <div class="tw-flex tw-justify-between tw-items-center">
+      <h5 class="tw-mb-1 tw-font-semibold">Weight Prices</h5>
     </div>
 
-    <div class="tw-bg-white tw-rounded-lg tw-p-6">
-      <!-- Table component -->
+    <div class="tw-mt-5 tw-bg-white tw-p-6">
       <table-component
-        :items="pickup_locations"
-        :busy="busy"
+        :items="items"
         :fields="fields"
-        @view="getRecord($event, 'view')"
-        @edit="getRecord($event, 'edit')"
+        :busy="busy"
+        @view="getWeightPricing($event, 'view')"
+        @edit="getWeightPricing($event, 'edit')"
         @delete="deleteRecord"
       >
         <template #button>
           <button class="peppi-btn peppi-primary" @click="toggleModal">
-            Add Pickup Location
+            Add Weight Price
           </button>
         </template>
       </table-component>
     </div>
 
     <!--Shipping Location Modal  -->
-    <pickup-location-modal
+    <create-weight-price
       :visible="dialogVisible"
       @toggle="closeModal"
       @done="done"
       :title="title"
       :editMode="editMode"
-      :data="singleRecord"
-    />
-
-    <!-- View Pickup location Modal  -->
-    <view-pick-up-location
-      :data="singleRecord"
-      :visible="viewPickUpLocation"
-      @toggle="closePickLocationModal"
+      :viewMode="viewMode"
+      :data="weight_pricing"
     />
   </div>
 </template>
 
 <script>
-import PickupLocationModal from "@/components/Modals/Shipping/PickupLocationModal.vue";
-import TableComponent from "@/components/TableComponent.vue";
-import ViewPickUpLocation from "@/components/Modals/Shipping/ViewPickUpLocation.vue";
+import CreateWeightPrice from "@/components/Modals/Shipping/CreateWeightPrice.vue";
+import TableComponent from '@/components/TableComponent.vue';
 export default {
-  components: { PickupLocationModal, TableComponent, ViewPickUpLocation },
+  components: { CreateWeightPrice, TableComponent },
   data() {
     return {
-      item: {},
-      singleRecord: {},
-      pickup_locations: [],
-      dialogVisible: false,
-      viewLocationModal: false,
-      busy: false,
+      items: [],
       fields: [
+        { key: "weight.name", label: "WEIGHT(kg)" },
         {
-          key: "address",
-          label: "Address",
-          formatter: (item) => {
-            return item.slice(0, 25) + "...";
-          },
-        },
-        {
-          key: "shipping_fee",
-          label: "Shipping Fee",
+          key: "price",
+          label: "Shipping Fees",
           formatter: (item) => {
             return item
               ? Number(item).toLocaleString("en-US", {
@@ -84,15 +56,14 @@ export default {
               : "NGN 0.00";
           },
         },
-        {
-          key: "created_at",
-          label: "Date Created",
-        },
-        {
-          key: "actions",
-          label: "",
-        },
+        { key: "state.name", label: "State" },
+        { key: "pickup_location.name", label: "Pickup Location" },
+        { key: "actions", label: "" },
       ],
+      weight_pricing: {},
+      dialogVisible: false,
+      viewLocationModal: false,
+      busy: false,
       totalRows: null,
       currentPage: null,
       perPage: null,
@@ -102,19 +73,17 @@ export default {
       pages: null,
       title: "",
       editMode: false,
-      id: this.$route.params.id,
-      viewPickUpLocation: false,
+      viewMode:false
     };
   },
 
   methods: {
     list() {
       this.busy = true;
-      this.$request(`admin/states/${this.id}`)
+      this.$request(`admin/weight-pricings`)
         .then((res) => {
-          let resPayload = res.data.state;
-          this.item = resPayload;
-          this.pickup_locations = resPayload.pickup_locations;
+          let resPayload = res.data.weightPricings;
+          this.items = resPayload;
           console.log(res.data);
           this.busy = false;
         })
@@ -124,17 +93,18 @@ export default {
         });
     },
 
-    getRecord(e, value) {
-      this.$request(`/admin/pickup-locations/${e.id}`)
+    getWeightPricing(e, value) {
+      this.$request(`admin/weight-pricings/${e.id}`)
         .then((res) => {
           let resPayload = res.data;
-          this.singleRecord = resPayload.location;
+          this.weight_pricing = resPayload.weightPricing;
           console.log(resPayload);
           if (value === "edit") {
             this.editMode = true;
             this.toggleModal();
           } else {
-            this.viewPickUpLocation = true;
+            this.viewMode = true;
+            this.toggleModal();
           }
           this.busy = false;
         })
@@ -145,15 +115,15 @@ export default {
     },
 
     view(item) {
-      this.$router.push(`/shipping/state/${item.id}`);
+      this.$router.push(`/configuration/shipping/${item.id}`);
     },
 
     toggleModal() {
       if (this.editMode) {
-        this.title = "Edit Pickup Location";
+        this.title = "Edit Weight Price";
         this.dialogVisible = !this.dialogVisible;
       } else {
-        this.title = "Create Pickup Location";
+        this.title = "Add Weight Price";
         this.dialogVisible = !this.dialogVisible;
       }
     },
@@ -163,22 +133,25 @@ export default {
       this.list();
     },
 
-    closePickLocationModal() {
-      this.viewPickUpLocation = !this.viewPickUpLocation;
+    closeCategory() {
+      this.viewLocationModal = !this.viewLocationModal;
     },
 
     closeModal() {
-      this.singleRecord = {};
+      this.weight_pricing = {};
       this.dialogVisible = !this.dialogVisible;
       this.editMode = false;
     },
 
-    completeDeleteOperation(value) {
+    deleteWeight(value) {
       this.$request
-        .post(`admin/pickup-locations/delete/${value.id}`)
+        .post(`admin/weight-pricings/delete/${value.id}`)
         .then((res) => {
-          console.log(res);
-          this.$swal.fire("Deleted!", `${res.data.message}`, "success");
+          this.$swal.fire(
+            "Deleted!",
+            "Weight Pricing deleted succesfully.",
+            "success"
+          );
           this.list();
           return res;
         })
@@ -199,7 +172,7 @@ export default {
         .then((result) => {
           console.log(result, "kkk");
           if (result.isConfirmed) {
-            this.completeDeleteOperation(value);
+            this.deleteWeight(value);
           }
         });
     },

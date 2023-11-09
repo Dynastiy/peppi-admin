@@ -30,60 +30,83 @@
 
     <!-- Main Create Product Form -->
     <div class="tw-grid tw-grid-cols-2 tw-gap-8 tw-my-8">
-      <div class="left-data-content tw-flex tw-flex-col tw-space-y-3">
-        <div>
-          <div class="input-container">
-            <div class="mb-3">
-              <label for="">Product Name</label>
-              <input type="text" v-model="dataObj.product_name" />
-            </div>
+      <div class="left-data-content tw-flex tw-flex-col tw-gap-3">
+        <div class="input-container">
+          <div class="">
+            <label for="">Product Name</label>
+            <input type="text" v-model="dataObj.product_name" />
           </div>
+        </div>
 
-          <div class="input-container">
-            <div class="mb-3">
-              <label for="">Product Category</label>
-              <v-select
-                class=""
-                placeholder="Select Category"
-                label="category_name"
-                v-model="dataObj.category_ids"
-                :options="categories"
-                :reduce="(option) => option.id"
-                multiple
-              >
-                <template #open-indicator="{ attributes }">
-                  <span v-bind="attributes"
-                    ><i-icon
-                      icon="radix-icons:caret-down"
-                      color="#4F4F4F"
-                      width="18px"
-                  /></span>
-                </template>
-              </v-select>
-            </div>
+        <div class="input-container">
+          <div class="">
+            <label for="">Product Category</label>
+            <v-select
+              class=""
+              placeholder="Select Category"
+              label="category_name"
+              v-model="dataObj.category_ids"
+              :options="categories"
+              :reduce="(option) => option.id"
+              multiple
+            >
+              <template #open-indicator="{ attributes }">
+                <span v-bind="attributes"
+                  ><i-icon
+                    icon="radix-icons:caret-down"
+                    color="#4F4F4F"
+                    width="18px"
+                /></span>
+              </template>
+            </v-select>
           </div>
+        </div>
 
-          <div class="input-container">
+        <div class="input-container">
+          <div>
             <div>
-              <div>
-                <label
-                  for=""
-                  class="d-flex align-items-center"
-                  style="gap: 5px"
-                >
-                  <span>Price</span>
-                  <el-tooltip class="item" effect="light" placement="right-end">
-                    <div slot="content">Actual Product Price</div>
-                    <i-icon icon="ic:baseline-help-outline" />
-                  </el-tooltip>
-                </label>
-                <input type="text" v-model="dataObj.price" />
-              </div>
+              <label for="" class="d-flex align-items-center" style="gap: 5px">
+                <span>Price</span>
+                <el-tooltip class="item" effect="light" placement="right-end">
+                  <div slot="content">Actual Product Price</div>
+                  <i-icon icon="ic:baseline-help-outline" />
+                </el-tooltip>
+              </label>
+              <input type="text" v-model="dataObj.price" />
             </div>
           </div>
         </div>
+
+        <div class="input-container">
+          <div class="">
+            <label for="">Product Weight</label>
+            <v-select
+              class=""
+              placeholder="Select Product Weight"
+              label="name"
+              v-model="dataObj.weight"
+              :options="weights"
+              :reduce="(option) => option.name"
+            >
+              <template #open-indicator="{ attributes }">
+                <span v-bind="attributes"
+                  ><i-icon
+                    icon="radix-icons:caret-down"
+                    color="#4F4F4F"
+                    width="18px"
+                /></span>
+              </template>
+              <!-- <template v-slot:option="option">
+                {{ option.weight.name }}
+              </template>
+              <template #selected-option="{ weight }">
+                {{ weight.name }}
+              </template> -->
+            </v-select>
+          </div>
+        </div>
       </div>
-      <div class="right-data-content tw-flex tw-flex-col tw-space-y-3">
+      <div class="right-data-content tw-flex tw-flex-col tw-gap-3">
         <div>
           <h4
             class="product-create-header tw-flex tw-items-center tw-space-x-1 tw-mb-0"
@@ -179,6 +202,7 @@ export default {
   data() {
     return {
       categories: [],
+      weights: [],
       dataObj: {
         category_ids: [],
         content: "",
@@ -186,6 +210,7 @@ export default {
         product_name: "",
         price: "",
         photos: [],
+        weight: "",
       },
       customToolbar: [
         ["bold", "italic", "underline"],
@@ -211,6 +236,21 @@ export default {
         });
     },
 
+    getWeights() {
+      this.busy = true;
+      this.$request(`admin/weights`)
+        .then((res) => {
+          let resPayload = res.data.weights;
+          this.weights = resPayload;
+          console.log(res.data);
+          this.busy = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.busy = false;
+        });
+    },
+
     createProduct() {
       console.log(this.dataObj, "kkkk");
       const formData = new FormData();
@@ -221,11 +261,11 @@ export default {
       // formData.append("photos[]", this.dataObj.photos)
       formData.append("description", this.dataObj.content);
       formData.append("price", this.dataObj.price);
+      formData.append("weight", this.dataObj.weight);
       formData.append("availability", this.dataObj.availability ? "yes" : "no");
       for (const item of this.dataObj.category_ids) {
         formData.append("category_ids[]", item);
       }
-      // formData.append("category_ids[]", this.dataObj.category_ids)
       this.busy = true;
       this.$request
         .post(`/admin/products/add`, formData)
@@ -237,8 +277,8 @@ export default {
             "Product added succesfully.",
             "success"
           );
-          this.dataObj = {}
-          this.photos = []
+          this.dataObj = {};
+          this.photos = [];
           this.busy = false;
         })
         .catch((err) => {
@@ -264,6 +304,7 @@ export default {
 
   beforeMount() {
     this.getCategories();
+    this.getWeights();
   },
 };
 </script>
