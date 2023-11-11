@@ -16,13 +16,14 @@ import Configuration from "@/modules/Configuration/IndexPage.vue";
 
 const router = [
   {
-    path: "/analytics",
+    path: "/",
     name: "analytics",
     component: IndexViewVue,
     meta: {
       layout: "AppDashboardLayout",
       parent: "analytics",
       name: "home",
+      requiresAuth: true
     },
   },
 
@@ -34,6 +35,7 @@ const router = [
       layout: "AppDashboardLayout",
       parent: "orders",
       name: "home",
+      requiresAuth: true
     },
   },
 
@@ -45,6 +47,7 @@ const router = [
       layout: "AppDashboardLayout",
       parent: "orders",
       name: "home",
+      requiresAuth: true
     },
   },
 
@@ -56,6 +59,7 @@ const router = [
       layout: "AppDashboardLayout",
       parent: "payments",
       name: "home",
+      requiresAuth: true
     },
   },
 
@@ -67,6 +71,7 @@ const router = [
       layout: "AppDashboardLayout",
       parent: "payments",
       name: "home",
+      requiresAuth: true
     },
   },
 
@@ -78,6 +83,7 @@ const router = [
       layout: "AppDashboardLayout",
       parent: "reviews-and-ratings",
       name: "home",
+      requiresAuth: true
     },
   },
 
@@ -89,6 +95,7 @@ const router = [
       layout: "AppDashboardLayout",
       parent: "profile",
       name: "home",
+      requiresAuth: true
     },
   },
 
@@ -100,6 +107,7 @@ const router = [
       layout: "AppDashboardLayout",
       parent: "configuration",
       name: "home",
+      requiresAuth: true
     },
   },
 

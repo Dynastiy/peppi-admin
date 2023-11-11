@@ -283,6 +283,11 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+           this.$swal.fire(
+            "Error! Product not created!",
+            err.data.message,
+            "warning"
+          );
           this.busy = false;
         });
     },

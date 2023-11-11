@@ -125,7 +125,7 @@ export default {
         commit("SET_SUCCESS", "Logged In");
 
         // Check redirect URL
-        router.push('/analytics')
+        router.push('/')
 
         toastify({
           text: `Welcome back`,
