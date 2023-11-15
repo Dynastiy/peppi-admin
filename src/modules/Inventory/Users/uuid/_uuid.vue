@@ -3,7 +3,7 @@
     <div>
       <div class="info-card">
         <img
-          src=""
+          :src="info.profile_photo"
           alt="user Profile Photo"
           style="
             height: 80px;
@@ -12,6 +12,7 @@
             object-position: center;
             border-radius: 50%;
           "
+          loading="lazy"
         />
         <h5 class="font-weight-bold tw-mb-0">
           {{ info.first_name + " " + info.last_name }}
@@ -27,9 +28,7 @@
             </span>
           </span>
           <span class="info-card-data">
-            {{
-              (user.username || "")
-            }}
+            {{ user.username || "" }}
           </span>
         </div>
         <div class="info-card">
@@ -48,12 +47,13 @@
           </span>
           <span class="info-card-data"> {{ info.gender }} </span>
         </div>
-        
-       
+
         <div class="info-card">
           <span class="info-card-header">
             <span class="info-card-header-text">City</span>
-            <span class="info-card-icon"> <i-icon icon="pajamas:location" /> </span>
+            <span class="info-card-icon">
+              <i-icon icon="pajamas:location" />
+            </span>
           </span>
           <span class="info-card-data"> {{ info.city }} </span>
         </div>
@@ -89,41 +89,43 @@
             <span class="info-card-header-text">Date Joined</span>
             <span class="info-card-icon"> <i-icon icon="uiw:date" /> </span>
           </span>
-          <span class="info-card-data"> {{ user.created_at | formatDate }} </span>
+          <span class="info-card-data">
+            {{ user.created_at | formatDate }}
+          </span>
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
 <script>
 // import { mapState } from "vuex";
 export default {
- data(){
+  data() {
     return {
-        id: this.$route.params.id,
-        info: {},
-        user: {}
-    }
- },
- methods:{
-    getUser(){
-        this.$request.get(`/admin/users/${this.id}`)
-        .then((res)=> {
-            console.log(res);
-            this.user = res.data.user
-            this.info = res.data.user.profile
+      id: this.$route.params.id,
+      info: {},
+      user: {},
+    };
+  },
+  methods: {
+    getUser() {
+      this.$request
+        .get(`/admin/users/${this.id}`)
+        .then((res) => {
+          console.log(res);
+          this.user = res.data.user;
+          this.info = res.data.user.profile;
         })
-        .catch((err)=> {
-            console.log(err);
-        })
-    }
- },
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
 
- beforeMount(){
-    this.getUser()
- },
+  beforeMount() {
+    this.getUser();
+  },
 
   computed: {},
 };

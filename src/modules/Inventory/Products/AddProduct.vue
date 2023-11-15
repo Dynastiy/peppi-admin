@@ -96,12 +96,6 @@
                     width="18px"
                 /></span>
               </template>
-              <!-- <template v-slot:option="option">
-                {{ option.weight.name }}
-              </template>
-              <template #selected-option="{ weight }">
-                {{ weight.name }}
-              </template> -->
             </v-select>
           </div>
         </div>
@@ -111,7 +105,7 @@
           <h4
             class="product-create-header tw-flex tw-items-center tw-space-x-1 tw-mb-0"
           >
-            <span>Product Images</span>
+            <span>Product Gallery</span>
             <el-tooltip class="item" effect="light" placement="right-end">
               <div slot="content">
                 Select four images(jpg/png files with a size less than 500kb)
@@ -119,15 +113,16 @@
               <i-icon icon="ic:baseline-help-outline" />
             </el-tooltip>
           </h4>
+          <label for="" style="font-size: 12px">Product Images</label>
           <span class="tw-block tw-text-red-600 tw-text-xs">
             *The first selected image is the featured image.
           </span>
           <div class="tw-mt-3">
             <div class="add-file" role="button">
               <input
-                @change="handleUpload"
+                @change="handleVideoUpload"
                 type="file"
-                accept="image/*"
+                accept="video/*"
                 id="choose-file"
                 name="choose-file"
                 class="tw-p-0"
@@ -155,17 +150,20 @@
           </div>
         </div>
         <div>
-          <!-- <h4
-            class="product-create-header tw-flex tw-items-center tw-space-x-1"
-          >
-            <span>Pricing</span>
-            <el-tooltip class="item" effect="light" placement="right-end">
-              <div slot="content">
-                Enter actual product price or/and discount price
-              </div>
-              <i-icon icon="ic:baseline-help-outline" />
-            </el-tooltip>
-          </h4> -->
+          <label for="" style="font-size: 12px">Product Weight</label>
+          <div class="add-file" role="button">
+            <input
+              @change="handleUpload"
+              type="file"
+              accept="image/*"
+              id="choose-file"
+              name="choose-file"
+              class="tw-p-0"
+            />
+            <label class="m-0" for="choose-file"
+              ><i-icon icon="iconoir:plus" class="file--icons" />
+            </label>
+          </div>
         </div>
         <div>
           <h4 class="product-create-header">Inventory</h4>
@@ -255,17 +253,20 @@ export default {
       console.log(this.dataObj, "kkkk");
       const formData = new FormData();
       formData.append("name", this.dataObj.product_name);
+
       for (const image of this.dataObj.photos) {
         formData.append("photos[]", image);
       }
-      // formData.append("photos[]", this.dataObj.photos)
+
       formData.append("description", this.dataObj.content);
       formData.append("price", this.dataObj.price);
       formData.append("weight", this.dataObj.weight);
       formData.append("availability", this.dataObj.availability ? "yes" : "no");
+      
       for (const item of this.dataObj.category_ids) {
         formData.append("category_ids[]", item);
       }
+
       this.busy = true;
       this.$request
         .post(`/admin/products/add`, formData)
@@ -283,7 +284,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
-           this.$swal.fire(
+          this.$swal.fire(
             "Error! Product not created!",
             err.data.message,
             "warning"
@@ -296,7 +297,11 @@ export default {
       const input = event.target;
       this.dataObj.photos.push(input.files[0]);
       this.photos.push(input.files[0].name);
-      console.log(this.photos);
+    },
+
+    handleVideoUpload(){
+      const input = event.target;
+      this.dataObj.photos.push(input.files[0]);
     },
 
     removePhoto(value) {
