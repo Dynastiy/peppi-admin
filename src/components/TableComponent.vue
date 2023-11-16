@@ -8,19 +8,21 @@
       </div>
       <div class="d-flex align-items-center justify-content-between tw-w-full">
         <div class="d-flex align-items-center">
-          <div v-if="showBaseCount && items.length > 0" class=""></div>
-          <!-- <b-pagination
-            v-if="paginate"
-            :currentPage="currentPage"
-            :total-rows="totalRows"
-            :per-page="perPage"
-            :pages="pages"
-            align="right"
-            size="sm"
-            class="my-0"
-            @change="$emit('page-changed', $event)"
-          ></b-pagination> -->
-          <app-pagination
+          <div v-if="showBaseCount && items.length > 0" class="">
+            <b-pagination
+              v-if="paginate"
+              :currentPage="currentPage"
+              :total-rows="totalRows"
+              :per-page="perPage"
+              :pages="pages"
+              align="right"
+              size="sm"
+              class="my-0"
+              @change="$emit('page-changed', $event)"
+            ></b-pagination>
+          </div>
+
+          <!-- <app-pagination
             :current_page="currentPage"
             :total_pages="pages"
             @next="$emit('page-changed', $event)"
@@ -31,10 +33,9 @@
                 class="tw-mr-1 text-center tw-font-semibold tw-text-xs tw-text-light"
               >
                 Showing {{ showFrom }} - {{ showTo }} of {{ totalRecords }}
-                <!-- Showing {{ currentPage * perPage }} / {{ totalRecords }} -->
               </div>
             </template>
-          </app-pagination>
+          </app-pagination> -->
         </div>
         <div v-if="$slots.button">
           <slot name="button"></slot>
@@ -337,7 +338,7 @@
 
 <script>
 import { formatDate } from "@/plugins/filters";
-import AppPagination from "./Navigation/AppPagination.vue";
+// import AppPagination from "./Navigation/AppPagination.vue";
 export default {
   props: {
     showFrom: {
@@ -453,7 +454,7 @@ export default {
   },
 
   components: {
-    AppPagination,
+    // AppPagination,
   },
 
   data: () => {

@@ -19,16 +19,16 @@
           </div>
         </div>
         <div class="d-flex align-items-center" style="gap: 20px">
-          <span class="header-icon" role="button">
+          <!-- <span class="header-icon" role="button">
             <i-icon icon="ion:notifications-outline" />
-          </span>
+          </span> -->
 
           <span class="d-flex align-items-center" style="gap: 5px">
-            <span
+            <!-- <span
               class="header-icon notifications font-weight-bolder text-uppercase"
               >A</span
-            >
-            <span class="text-capitalize" style="font-size: 14px">Hello</span>
+            > -->
+            <span class="text-capitalize" style="font-size: 14px">{{ user.username }}</span>
           </span>
         </div>
       </div>
@@ -73,6 +73,10 @@ export default {
     isActive() {
       return this.$route.meta.subName;
     },
+
+    user() {
+      return this.$store.getters['auth/getUser']
+    }
   },
 };
 </script>

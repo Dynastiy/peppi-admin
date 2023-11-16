@@ -110,7 +110,7 @@ export default {
           title: "analytics",
           icon: "carbon:analytics",
           parent: "analytics",
-          url: "/analytics",
+          url: "/",
           hasChildren: false,
         },
         {

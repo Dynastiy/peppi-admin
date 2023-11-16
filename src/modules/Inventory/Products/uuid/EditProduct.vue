@@ -13,15 +13,13 @@
           </span>
 
           <div>
-            <small class="tw-font-light tw-text-xs tw-mb-0"
-              >Go Back</small
-            >
+            <small class="tw-font-light tw-text-xs tw-mb-0">Go Back</small>
             <h5 class="tw-mb-0 tw-text-14 tw-font-bold tw-capitalize">
               {{ item.name }}
             </h5>
           </div>
         </div>
-        <div class="tw-flex tw-space-x-2 tw-my-4">
+        <div class="tw-flex tw-gap-2 tw-my-4">
           <span
             role="button"
             @click="deleteRecord"
@@ -30,151 +28,176 @@
             <i-icon icon="fluent:delete-12-regular" />
             <span>Delete</span>
           </span>
+
+          <button
+            class="peppi-btn peppi-primary"
+            @click.prevent="updateProduct"
+          >
+            Update Product
+          </button>
         </div>
       </div>
       <div class="tw-mt-4">
         <div class="tw-grid tw-grid-cols-2 tw-gap-8 tw-my-8">
-      <div class="left-data-content tw-flex tw-flex-col tw-space-y-3">
-        <div>
-          <div class="input-container">
-            <div class="mb-3">
-              <label for="">Product Name</label>
-              <input type="text" v-model="dataObj.product_name" />
-            </div>
-          </div>
-
-          <div class="input-container">
-            <div class="mb-3">
-              <label for="">Product Category</label>
-              <v-select
-                class=""
-                placeholder="Select Category"
-                label="category_name"
-                v-model="dataObj.category_ids"
-                :options="categories"
-                :reduce="(option) => option.id"
-                multiple
-              >
-                <template #open-indicator="{ attributes }">
-                  <span v-bind="attributes"
-                    ><i-icon
-                      icon="radix-icons:caret-down"
-                      color="#4F4F4F"
-                      width="18px"
-                  /></span>
-                </template>
-              </v-select>
-            </div>
-          </div>
-
-          <div class="input-container">
+          <div class="left-data-content tw-flex tw-flex-col tw-space-y-3">
             <div>
-              <div>
-                <label
-                  for=""
-                  class="d-flex align-items-center"
-                  style="gap: 5px"
-                >
-                  <span>Price</span>
+              <div class="input-container">
+                <div class="mb-3">
+                  <label for="">Product Name</label>
+                  <input type="text" v-model="dataObj.name" />
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="mb-3">
+                  <label for="">Product Category</label>
+                  <v-select
+                    class=""
+                    placeholder="Select Category"
+                    label="category_name"
+                    v-model="dataObj.category_ids"
+                    :options="categories"
+                    :reduce="(option) => option.id"
+                    multiple
+                  >
+                    <template #open-indicator="{ attributes }">
+                      <span v-bind="attributes"
+                        ><i-icon
+                          icon="radix-icons:caret-down"
+                          color="#4F4F4F"
+                          width="18px"
+                      /></span>
+                    </template>
+                  </v-select>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="tw-mb-3">
+                  <label for="">Product Weight</label>
+                  <v-select
+                    class=""
+                    placeholder="Select Product Weight"
+                    label="name"
+                    v-model="dataObj.weight"
+                    :options="weights"
+                    :reduce="(option) => option.name"
+                  >
+                    <template #open-indicator="{ attributes }">
+                      <span v-bind="attributes"
+                        ><i-icon
+                          icon="radix-icons:caret-down"
+                          color="#4F4F4F"
+                          width="18px"
+                      /></span>
+                    </template>
+                  </v-select>
+                </div>
+              </div>
+
+              <div class="input-container">
+                <div class="">
+                  <div>
+                    <label
+                      for=""
+                      class="d-flex align-items-center"
+                      style="gap: 5px"
+                    >
+                      <span>Price</span>
+                      <el-tooltip
+                        class="item"
+                        effect="light"
+                        placement="right-end"
+                      >
+                        <div slot="content">Actual Product Price</div>
+                        <i-icon icon="ic:baseline-help-outline" />
+                      </el-tooltip>
+                    </label>
+                    <input type="text" v-model="dataObj.price" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="right-data-content tw-flex tw-flex-col tw-space-y-3">
+            <!-- <div>
+              <h4
+                class="product-create-header tw-flex tw-items-center tw-space-x-1 tw-mb-0"
+              >
+                <span>Product Images</span>
+                <el-tooltip class="item" effect="light" placement="right-end">
+                  <div slot="content">
+                    Select four images(jpg/png files with a size less than
+                    500kb)
+                  </div>
+                  <i-icon icon="ic:baseline-help-outline" />
+                </el-tooltip>
+              </h4>
+              <span class="tw-block tw-text-red-600 tw-text-xs">
+                *The first selected image is the featured image.
+              </span>
+              <div class="tw-mt-3">
+                <div class="add-file" role="button">
+                  <input
+                    @change="handleUpload"
+                    type="file"
+                    accept="image/*"
+                    id="choose-file"
+                    name="choose-file"
+                    class="tw-p-0"
+                  />
+                  <label class="m-0" for="choose-file"
+                    ><i-icon icon="iconoir:plus" class="file--icons" />
+                  </label>
+                </div>
+
+                <div class="tw-mt-3">
+                  <span
+                    v-for="(item, idx) in photos"
+                    :key="idx"
+                    class="tw-flex tw-items-center tw-space-x-2"
+                  >
+                    <span class="tw-text-xs">{{
+                      item.slice(0, 14) + "..."
+                    }}</span>
+                    <span role="button" @click="removePhoto(idx)">
+                      <i-icon
+                        icon="carbon:close-outline"
+                        class="tw-font-bold tw-text-red-600 tw-text-xs"
+                      />
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div> -->
+            <div></div>
+            <div>
+              <h4 class="product-create-header">Inventory</h4>
+              <div class="tw-flex tw-items-center tw-space-x-2">
+                <input
+                  id="check"
+                  v-model="dataObj.availability"
+                  class="tw-w-fit"
+                  type="checkbox"
+                />
+                <span class="tw-flex tw-space-x-1 tw-items-center">
+                  <label for="">Availability</label>
                   <el-tooltip class="item" effect="light" placement="right-end">
-                    <div slot="content">Actual Product Price</div>
+                    <div slot="content">Select if product is available</div>
                     <i-icon icon="ic:baseline-help-outline" />
                   </el-tooltip>
-                </label>
-                <input type="text" v-model="dataObj.price" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="right-data-content tw-flex tw-flex-col tw-space-y-3">
-        <div>
-          <h4
-            class="product-create-header tw-flex tw-items-center tw-space-x-1 tw-mb-0"
-          >
-            <span>Product Images</span>
-            <el-tooltip class="item" effect="light" placement="right-end">
-              <div slot="content">
-                Select four images(jpg/png files with a size less than 500kb)
-              </div>
-              <i-icon icon="ic:baseline-help-outline" />
-            </el-tooltip>
-          </h4>
-          <span class="tw-block tw-text-red-600 tw-text-xs">
-            *The first selected image is the featured image.
-          </span>
-          <div class="tw-mt-3">
-            <div class="add-file" role="button">
-              <input
-                @change="handleUpload"
-                type="file"
-                accept="image/*"
-                id="choose-file"
-                name="choose-file"
-                class="tw-p-0"
-              />
-              <label class="m-0" for="choose-file"
-                ><i-icon icon="iconoir:plus" class="file--icons" />
-              </label>
-            </div>
-
-            <div class="tw-mt-3">
-              <span
-                v-for="(item, idx) in photos"
-                :key="idx"
-                class="tw-flex tw-items-center tw-space-x-2"
-              >
-                <span class="tw-text-xs">{{ item.slice(0, 14) + "..." }}</span>
-                <span role="button" @click="removePhoto(idx)">
-                  <i-icon
-                    icon="carbon:close-outline"
-                    class="tw-font-bold tw-text-red-600 tw-text-xs"
-                  />
                 </span>
-              </span>
+              </div>
             </div>
           </div>
         </div>
-        <div>
-          <!-- <h4
-            class="product-create-header tw-flex tw-items-center tw-space-x-1"
-          >
-            <span>Pricing</span>
-            <el-tooltip class="item" effect="light" placement="right-end">
-              <div slot="content">
-                Enter actual product price or/and discount price
-              </div>
-              <i-icon icon="ic:baseline-help-outline" />
-            </el-tooltip>
-          </h4> -->
+        <div class="">
+          <label for="" class="tw-text-xs">Product Description</label>
+          <v-editor
+            v-model="dataObj.description"
+            :editorToolbar="customToolbar"
+          ></v-editor>
         </div>
-        <div>
-          <h4 class="product-create-header">Inventory</h4>
-          <div class="tw-flex tw-items-center tw-space-x-2">
-            <input
-              id="check"
-              v-model="dataObj.availability"
-              class="tw-w-fit"
-              type="checkbox"
-            />
-            <span class="tw-flex tw-space-x-1 tw-items-center">
-              <label for="">Availability</label>
-              <el-tooltip class="item" effect="light" placement="right-end">
-                <div slot="content">Select if product is available</div>
-                <i-icon icon="ic:baseline-help-outline" />
-              </el-tooltip>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="">
-      <label for="" class="tw-text-xs">Product Description</label>
-      <v-editor
-        v-model="dataObj.content"
-        :editorToolbar="customToolbar"
-      ></v-editor>
-    </div>
       </div>
     </div>
   </div>
@@ -190,13 +213,21 @@ export default {
       activeName: "first",
       dataObj: {
         category_ids: [],
-        content: "",
+        description: "",
         availability: "",
-        product_name: "",
+        name: "",
         price: "",
         photos: [],
+        weight: "",
       },
-      photos: []
+      customToolbar: [
+        ["bold", "italic", "underline"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["code-block"],
+      ],
+      photos: [],
+      categories: [],
+      weights: [],
     };
   },
   methods: {
@@ -214,6 +245,96 @@ export default {
           console.log(err);
           this.busy = false;
         });
+    },
+
+    updateProduct() {
+      const formData = new FormData();
+      formData.append("name", this.dataObj.name);
+
+      // for (const image of this.dataObj.photos) {
+      //   formData.append("photos[]", image);
+      // }
+
+      // for (const vid of this.videos) {
+      //   formData.append("video[]", vid);
+      // }
+
+      // formData.append("video", this.dataObj.video);
+
+      formData.append("description", this.dataObj.description);
+      formData.append("price", this.dataObj.price);
+      formData.append("weight", this.dataObj.weight);
+      formData.append("availability", this.dataObj.availability ? "yes" : "no");
+
+      for (const item of this.dataObj.category_ids) {
+        formData.append("category_ids[]", item);
+      }
+
+      this.busy = true;
+      this.$request
+        .post(`/admin/products/update/${this.id}`, formData)
+        .then((res) => {
+          let resPayload = res.data.categories;
+          this.categories = resPayload;
+          this.$swal.fire(
+            "Successful!",
+            "Product updated succesfully.",
+            "success"
+          );
+          this.getProduct()
+          this.busy = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$swal.fire(
+            "Error! Product not Updated!",
+            err.data.message,
+            "warning"
+          );
+          this.busy = false;
+        });
+    },
+
+    getCategories() {
+      this.busy = true;
+      this.$request(`admin/categories`)
+        .then((res) => {
+          let resPayload = res.data.categories;
+          this.categories = resPayload;
+          this.busy = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.busy = false;
+        });
+    },
+
+    getWeights() {
+      this.busy = true;
+      this.$request(`admin/weights`)
+        .then((res) => {
+          let resPayload = res.data.weights;
+          this.weights = resPayload;
+          console.log(res.data);
+          this.busy = false;
+        })
+        .catch((err) => {
+          console.log(err);
+          this.busy = false;
+        });
+    },
+
+    handleUpload() {
+      const input = event.target;
+      this.dataObj.photos.push(input.files[0]);
+      this.photos.push(input.files[0].name);
+    },
+
+    removePhoto(value) {
+      if (this.photos.length !== 0) {
+        this.dataObj.photos.splice(value, 1);
+        this.photos.splice(value, 1);
+      }
     },
 
     deleteProduct() {
@@ -250,27 +371,28 @@ export default {
         });
     },
   },
+
   created() {
     this.getProduct();
+    this.getCategories();
+    this.getWeights();
   },
 
   watch: {
-    // data: {
-    //     handler(val) {
-    //         this.dataObj = {
-    //             category_ids: [],
-    //     content: "",
-    //     availability: "",
-    //     product_name: "",
-    //     price: "",
-    //     photos: [],
-    //         }
-    //         this.photos = [
-
-    //         ]
-    //     }
-    // }
-  }
+    item: {
+      handler(val) {
+        this.dataObj = {
+          category_ids: val.categories,
+          description: val.description,
+          availability: val.availability,
+          name: val.name,
+          price: val.price,
+          weight: val.weight,
+        };
+      },
+      immediate: true,
+    },
+  },
 };
 </script>
 
@@ -297,4 +419,3 @@ export default {
   outline: none;
 }
 </style>
-

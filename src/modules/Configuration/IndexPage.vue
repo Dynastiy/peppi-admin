@@ -13,7 +13,7 @@ import MainTab from "@/components/Utils/MainTab.vue";
 
 // Components
 import ShippingConfiguration from "@/components/Home/Configuration/ShippingConfiguration.vue";
-import UserProfile from "@/components/Home/Configuration/UserProfile.vue";
+// import UserProfile from "@/components/Home/Configuration/UserProfile.vue";
 import WeightPrices from "@/components/Home/Configuration/WeightPrices.vue";
 import ProductWeights from "@/components/Home/Configuration/ProductWeights.vue";
 
@@ -44,12 +44,12 @@ export default {
           component: WeightPrices,
           name: "weight-prices",
         },
-        {
-          id: 4,
-          title: "User Profile",
-          component: UserProfile,
-          name: "user-profile",
-        },
+        // {
+        //   id: 4,
+        //   title: "User Profile",
+        //   component: UserProfile,
+        //   name: "user-profile",
+        // },
       ],
     };
   },

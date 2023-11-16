@@ -15,6 +15,7 @@
       @view="getCategory($event, 'view')"
       @edit="getCategory($event, 'edit')"
       @delete="deleteRecord"
+      :showBaseCount="false"
     >
       <template #button>
         <button class="peppi-btn peppi-primary" @click="toggleModal">

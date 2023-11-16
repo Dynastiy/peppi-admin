@@ -19,9 +19,9 @@
           </div>
         </div>
         <div class="tw-flex tw-items-center tw-space-x-1">
-          <span class="header-icon" role="button">
+          <!-- <span class="header-icon" role="button">
             <i-icon icon="ion:notifications-outline" />
-          </span>
+          </span> -->
 
           <span class="d-flex align-items-center" style="gap: 5px">
             <span

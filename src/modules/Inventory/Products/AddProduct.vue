@@ -120,9 +120,9 @@
           <div class="tw-mt-3">
             <div class="add-file" role="button">
               <input
-                @change="handleVideoUpload"
+                @change="handleUpload"
                 type="file"
-                accept="video/*"
+                accept="image/*"
                 id="choose-file"
                 name="choose-file"
                 class="tw-p-0"
@@ -150,8 +150,8 @@
           </div>
         </div>
         <div>
-          <label for="" style="font-size: 12px">Product Weight</label>
-          <div class="add-file" role="button">
+          <label for="" style="font-size: 12px">Product Video Desription</label>
+          <!-- <div class="add-file" role="button">
             <input
               @change="handleUpload"
               type="file"
@@ -163,6 +163,28 @@
             <label class="m-0" for="choose-file"
               ><i-icon icon="iconoir:plus" class="file--icons" />
             </label>
+          </div> -->
+          <input
+            type="file"
+            name=""
+            id=""
+            @change="handleVideoUpload"
+            accept="video/*"
+          />
+          <div class="tw-mt-3">
+            <span
+              v-for="(item, idx) in videos"
+              :key="idx"
+              class="tw-flex tw-items-center tw-space-x-2"
+            >
+              <span class="tw-text-xs">{{ item.slice(0, 14) + "..." }}</span>
+              <span role="button" @click="removeVideo(idx)">
+                <i-icon
+                  icon="carbon:close-outline"
+                  class="tw-font-bold tw-text-red-600 tw-text-xs"
+                />
+              </span>
+            </span>
           </div>
         </div>
         <div>
@@ -209,6 +231,7 @@ export default {
         price: "",
         photos: [],
         weight: "",
+        video: null,
       },
       customToolbar: [
         ["bold", "italic", "underline"],
@@ -216,6 +239,7 @@ export default {
         ["code-block"],
       ],
       photos: [],
+      videos: [],
     };
   },
 
@@ -258,11 +282,17 @@ export default {
         formData.append("photos[]", image);
       }
 
+      // for (const vid of this.videos) {
+      //   formData.append("video[]", vid);
+      // }
+
+      formData.append("video", this.dataObj.video);
+
       formData.append("description", this.dataObj.content);
       formData.append("price", this.dataObj.price);
       formData.append("weight", this.dataObj.weight);
       formData.append("availability", this.dataObj.availability ? "yes" : "no");
-      
+
       for (const item of this.dataObj.category_ids) {
         formData.append("category_ids[]", item);
       }
@@ -271,8 +301,6 @@ export default {
       this.$request
         .post(`/admin/products/add`, formData)
         .then((res) => {
-          let resPayload = res.data.categories;
-          this.categories = resPayload;
           this.$swal.fire(
             "Successful!",
             "Product added succesfully.",
@@ -281,6 +309,7 @@ export default {
           this.dataObj = {};
           this.photos = [];
           this.busy = false;
+          return res
         })
         .catch((err) => {
           console.log(err);
@@ -299,9 +328,10 @@ export default {
       this.photos.push(input.files[0].name);
     },
 
-    handleVideoUpload(){
+    handleVideoUpload() {
       const input = event.target;
-      this.dataObj.photos.push(input.files[0]);
+      this.dataObj.video = input.files[0].name;
+      // console.log(input.files[0].name, "kkk");
     },
 
     removePhoto(value) {
@@ -310,6 +340,13 @@ export default {
         this.photos.splice(value, 1);
       }
     },
+
+    // removeVideo(value) {
+    //   if (this.videos.length !== 0) {
+    //     this.dataObj.video.splice(value, 1);
+    //     this.videos.splice(value, 1);
+    //   }
+    // },
   },
 
   beforeMount() {
