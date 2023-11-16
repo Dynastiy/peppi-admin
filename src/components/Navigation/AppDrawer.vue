@@ -82,6 +82,7 @@
 
     <div class="tw-text-white">
       <span
+        @click="logout"
         role="button"
         class="menu-item-link tw-text-semibold tw-block tw-p-3 tw-rounded-lg tw-text-[13px] tw-text-red-500 hover:tw-bg-gray200 hover:tw-text-dark-300"
       >
@@ -225,6 +226,40 @@ export default {
     collapseAppDrawer() {
       this.$store.dispatch("drawer/setCollapseState");
     },
+
+    logout() {
+      this.$swal
+        .fire({
+          title: "Uhhhh! 😔",
+          text: "Are you sure you want to log out?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, logout!",
+        })
+        .then((result) => {
+          console.log(result, "kkk");
+          if (result.isConfirmed) {
+            this.userLogout();
+          }
+        });
+    },
+
+    userLogout() {
+      this.$store.dispatch("auth/logout");
+      this.$swal
+        .fire({
+          title: "Woo hoo 😫",
+          text: "Logged out succesfully",
+          icon: "success",
+          confirmButtonText: "Ok!",
+        })
+        .then((result) => {
+          console.log(result, "kkk");
+          if (result.isConfirmed) {
+            this.$router.go();
+          }
+        });
+    },
   },
 
   computed: {
@@ -233,7 +268,7 @@ export default {
     },
 
     subMenuRouteName() {
-      return this.$route.meta.subName ;
+      return this.$route.meta.subName;
     },
 
     routeParent() {

@@ -101,9 +101,10 @@ export default {
     async LOGOUT(state) {
       state.user = null;
       state.token = null;
-      localStorage.removeItem("vuex");
+      localStorage.removeItem("token");
       localStorage.clear();
     },
+
     RESET(state) {
       Object.keys(state).forEach((key) => {
         Object.assign(state[key], null);
@@ -194,6 +195,11 @@ export default {
         } finally {
           NProgress.done();
         }
+      },
+
+      // Logout Request
+      logout({ commit }) {
+        commit("LOGOUT");
       },
   },
 };

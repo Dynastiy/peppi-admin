@@ -24,6 +24,7 @@ const router = [
       parent: "inventory",
       name: "inventory",
       header: "inventory",
+      requiresAuth: true
     },
 
     children: [
@@ -37,6 +38,7 @@ const router = [
           name: "products",
           header: "my account",
           subName: "products",
+          requiresAuth: true
         },
       },
 
@@ -51,6 +53,7 @@ const router = [
           header: "my account",
           subParent: "products",
           subName: "products",
+          requiresAuth: true
         },
       },
 
@@ -65,6 +68,7 @@ const router = [
           header: "Product Details",
           subParent: "products",
           subName: "products",
+          requiresAuth: true
         },
       },
 
@@ -79,6 +83,7 @@ const router = [
           header: "Edit Product",
           subParent: "products",
           subName: "products",
+          requiresAuth: true
         },
       },
 
@@ -92,6 +97,7 @@ const router = [
           name: "Categories",
           header: "my account",
           subName: "categories",
+          requiresAuth: true
         },
       },
 
@@ -105,6 +111,7 @@ const router = [
           name: "Users",
           header: "my account",
           subName: "users",
+          requiresAuth: true
         },
       },
 
@@ -119,6 +126,7 @@ const router = [
           header: "Users",
           subParent: "users",
           subName: "users",
+          requiresAuth: true
         },
       },
     ],
