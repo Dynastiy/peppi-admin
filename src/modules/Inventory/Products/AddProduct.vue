@@ -171,7 +171,7 @@
             @change="handleVideoUpload"
             accept="video/*"
           />
-          <div class="tw-mt-3">
+          <!-- <div class="tw-mt-3">
             <span
               v-for="(item, idx) in videos"
               :key="idx"
@@ -185,7 +185,7 @@
                 />
               </span>
             </span>
-          </div>
+          </div> -->
         </div>
         <div>
           <h4 class="product-create-header">Inventory</h4>
@@ -308,13 +308,14 @@ export default {
           );
           this.dataObj = {};
           this.photos = [];
+          this.dataObj.video = null;
           this.busy = false;
           return res
         })
         .catch((err) => {
           console.log(err);
           this.$swal.fire(
-            "Error! Product not created!",
+            "Error 😫!",
             err.data.message,
             "warning"
           );
@@ -330,7 +331,7 @@ export default {
 
     handleVideoUpload() {
       const input = event.target;
-      this.dataObj.video = input.files[0].name;
+      this.dataObj.video = input.files[0];
       // console.log(input.files[0].name, "kkk");
     },
 

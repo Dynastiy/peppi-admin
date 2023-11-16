@@ -45,7 +45,7 @@
           <el-tab-pane label="Product Overview" name="first">
             <product-overview :data="item" />
           </el-tab-pane>
-          <el-tab-pane label="Images" name="second">
+          <el-tab-pane label="Gallery" name="second">
             <product-images :data="item"/>
           </el-tab-pane>
         </el-tabs>
