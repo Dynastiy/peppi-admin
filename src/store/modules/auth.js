@@ -118,26 +118,42 @@ export default {
       commit("SET_LOADING", true);
       try {
         let res = await $request.post(`auth/signin`, payload);
-        localStorage.setItem("token", res.data.token);
         console.log(res);
         let responsePayload = res.data;
-        
-        commit("SET_USER", responsePayload.user);
+        if(responsePayload.user.role !== 'admin') {
+          commit("SET_VALIDATION_ERRORS", "Access Denied");
+          toastify({
+            text: `Access Denied`,
+            className: "info",
+            position: "center",
+            style: {
+              background: "red",
+              fontSize: "12px",
+              borderRadius: "5px",
+            },
+          }).showToast();
+        }
+        else {
+          router.push('/')
+          localStorage.setItem("token", res.data.token);
+          commit("SET_USER", responsePayload.user);
+          toastify({
+            text: `Welcome back`,
+            className: "info",
+            position: "center",
+            style: {
+              background: "green",
+              fontSize: "12px",
+              borderRadius: "5px",
+            },
+          }).showToast();
+        }
         commit("SET_SUCCESS", "Logged In");
 
         // Check redirect URL
-        router.push('/')
+        
 
-        toastify({
-          text: `Welcome back`,
-          className: "info",
-          position: "center",
-          style: {
-            background: "green",
-            fontSize: "12px",
-            borderRadius: "5px",
-          },
-        }).showToast();
+       
         return res;
       } catch (error) {
         if (error.data) {

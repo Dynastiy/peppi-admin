@@ -253,7 +253,7 @@ form label {
     background-color: orange;
 }
 
-/* Tabs  */
+/* Tabs */
 .el-tabs__item {
     font-size: 14px !important;
     color: var(--dark-100);
@@ -272,7 +272,6 @@ form label {
 }
 
 /* COLORS BY ALPHABETS  */
-
 .tag.a,
 .tag.b,
 .tag.c,
@@ -296,7 +295,6 @@ form label {
 .tag.F {
     background-color: #7B61FF;
     color: #fff;
-    /* background-color: #FFB20F; */
 }
 
 .tag.i,

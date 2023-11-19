@@ -23,12 +23,32 @@
             <i-icon icon="ion:notifications-outline" />
           </span> -->
 
-          <span class="d-flex align-items-center" style="gap: 5px">
+          <span class="tw-flex tw-flex-col tw-items-end">
             <!-- <span
               class="header-icon notifications font-weight-bolder text-uppercase"
               >A</span
             > -->
-            <span class="text-capitalize" style="font-size: 14px">{{ user.username }}</span>
+            <span class="text-capitalize" style="font-size: 14px">{{
+              user.username
+            }}</span>
+            <div class="tw-text-white">
+              <span
+                @click="logout"
+                role="button"
+                class="menu-item-link tw-text-semibold tw-block tw-rounded-lg tw-text-[13px] tw-text-red-500 hover:tw-bg-gray200 hover:tw-text-dark-300"
+              >
+                <div class="tw-flex tw-items-center tw-gap-1">
+                  <i-icon
+                    icon="material-symbols:logout"
+                    class="menu-item-icon"
+                    width="16px"
+                  />
+                  <span class="tw-flex tw-flex-col">
+                    <span> Logout </span>
+                  </span>
+                </div>
+              </span>
+            </div>
           </span>
         </div>
       </div>
@@ -49,6 +69,40 @@ export default {
   methods: {
     start_case(value) {
       return startCase(value);
+    },
+
+    logout() {
+      this.$swal
+        .fire({
+          title: "Uhhhh! 😔",
+          text: "Are you sure you want to log out?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, logout!",
+        })
+        .then((result) => {
+          console.log(result, "kkk");
+          if (result.isConfirmed) {
+            this.userLogout();
+          }
+        });
+    },
+
+    userLogout() {
+      this.$store.dispatch("auth/logout");
+      this.$swal
+        .fire({
+          title: "Woo hoo 😫",
+          text: "Logged out succesfully",
+          icon: "success",
+          confirmButtonText: "Ok!",
+        })
+        .then((result) => {
+          console.log(result, "kkk");
+          if (result.isConfirmed) {
+            this.$router.go();
+          }
+        });
     },
 
     structureTitle() {
@@ -75,8 +129,8 @@ export default {
     },
 
     user() {
-      return this.$store.getters['auth/getUser']
-    }
+      return this.$store.getters["auth/getUser"];
+    },
   },
 };
 </script>
