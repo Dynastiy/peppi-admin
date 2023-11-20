@@ -35,7 +35,7 @@
               <span
                 @click="logout"
                 role="button"
-                class="menu-item-link tw-text-semibold tw-block tw-rounded-lg tw-text-[13px] tw-text-red-500 hover:tw-bg-gray200 hover:tw-text-dark-300"
+                class="menu-item-link tw-text-semibold tw-block tw-rounded-lg tw-text-[13px] tw-text-red-500"
               >
                 <div class="tw-flex tw-items-center tw-gap-1">
                   <i-icon
