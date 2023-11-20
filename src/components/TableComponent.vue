@@ -166,7 +166,7 @@
             :class="data.item.availability === 'yes' ? 'active' : 'inactive'"
           ></span>
           <span class="tw-text-[12px] tw-capitalize">{{
-            data.item.availability === "yes" ? "available" : "unavailable"
+            data.item.availability === "yes" ? "In Stock" : "Out of Stock"
           }}</span>
         </span>
       </template>

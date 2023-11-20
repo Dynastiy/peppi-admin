@@ -37,7 +37,7 @@
         <span class="tw-w-2/5 tw-text-sm tw-font-medium">Availability</span>
         <span
           class="tw-text-xs"
-          :class="data.availability === 'yes' ? 'active' : 'inactive'"
+          :class="data.availability === 'yes' ? 'available' : 'unavailable'"
           >{{ data.availability === "yes" ? "available" : "unavailable" }}</span
         >
       </div>

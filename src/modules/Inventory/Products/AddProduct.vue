@@ -132,7 +132,7 @@
               </label>
             </div>
 
-            <div class="tw-mt-3">
+            <!-- <div class="tw-mt-3">
               <span
                 v-for="(item, idx) in photos"
                 :key="idx"
@@ -146,6 +146,30 @@
                   />
                 </span>
               </span>
+            </div> -->
+
+            <div class="tw-grid tw-grid-cols-4 tw-gap-3 tw-mt-3">
+              <div v-for="(item, idx) in photos" :key="idx">
+                <div class="tw-shadow tw-p-2">
+                  <img :src="item" alt="" />
+                  <div class="tw-flex tw-justify-end tw-gap-2">
+                    <span
+                      role="button"
+                      class="tw-text-red-600 tw-text-md"
+                      @click="removePhoto(idx)"
+                    >
+                      <i-icon icon="fluent:delete-12-regular" />
+                    </span>
+                    <a
+                      :href="item"
+                      class="tw-text-amber-600 tw-text-md"
+                      target="_blank"
+                    >
+                      <i-icon icon="iconamoon:eye" />
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -171,6 +195,15 @@
             @change="handleVideoUpload"
             accept="video/*"
           />
+          <div class="tw-flex tw-justify-end tw-gap-2 tw-mt-2" v-if="videoUrl !== null">
+            <a
+              :href="videoUrl"
+              class="tw-text-amber-600 tw-text-sm"
+              target="_blank"
+            >
+              Preview Video
+            </a>
+          </div>
           <!-- <div class="tw-mt-3">
             <span
               v-for="(item, idx) in videos"
@@ -240,6 +273,7 @@ export default {
       ],
       photos: [],
       videos: [],
+      videoUrl: null
     };
   },
 
@@ -310,29 +344,40 @@ export default {
           this.photos = [];
           this.dataObj.video = null;
           this.busy = false;
-          return res
+          return res;
         })
         .catch((err) => {
           console.log(err);
-          this.$swal.fire(
-            "Error 😫!",
-            err.data.message,
-            "warning"
-          );
+          this.$swal.fire("Error 😫!", err.data.message, "warning");
           this.busy = false;
         });
     },
 
     handleUpload() {
-      const input = event.target;
-      this.dataObj.photos.push(input.files[0]);
-      this.photos.push(input.files[0].name);
+      if (this.photos.length < 4) {
+        const input = event.target;
+        this.dataObj.photos.push(input.files[0]);
+        console.log(input.files[0], "kkk");
+        var photo = null;
+        if (input.files.length > 0) {
+          var src = URL.createObjectURL(input.files[0]);
+          photo = src;
+          this.isActive = false;
+        }
+        this.photos.push(photo);
+      }
     },
 
     handleVideoUpload() {
       const input = event.target;
       this.dataObj.video = input.files[0];
-      // console.log(input.files[0].name, "kkk");
+      console.log(input.files[0].name, "kkk");
+      if (input.files.length > 0) {
+          var src = URL.createObjectURL(input.files[0]);
+          this.videoUrl = src;
+          this.isActive = false;
+        }
+      
     },
 
     removePhoto(value) {
