@@ -1,11 +1,11 @@
 <template>
   <div
     id="app-drawer"
-    class="tw-flex tw-flex-col tw-justify-between tw-pt-6 tw-px-2 tw-py-4 tw-pb-12 tw-bg-dark-100 tw-z-20 tw-fixed tw-left-0 tw-top-0 tw-h-screen tw-overflow-auto tw-w-64"
+    class="tw-flex tw-flex-col tw-justify-between tw-pt-6 tw-px-2 tw-py-4 tw-pb-12 tw-bg-secondary tw-z-20 tw-fixed tw-left-0 tw-top-0 tw-h-screen tw-overflow-auto tw-w-64"
   >
     <div>
       <div class="tw-flex tw-justify-center">
-        <img src="@/assets/img/peppi-logo.png" class="tw-w-32" alt="" />
+        <img src="@/assets/img/peppi-logo.png" class="tw-w-40" alt="" />
       </div>
 
       <ul class="tw-pl-0 tw-flex tw-flex-col tw-space-y-4 tw-mt-12">
