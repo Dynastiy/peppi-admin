@@ -21,7 +21,7 @@ const $axios = axios.create({
 // const accessToken = Cookies.get(config.accessTokenStorageKey);
 const accessToken = localStorage.getItem('token')
 if (accessToken) {
-  $axios.defaults.headers.common["Authorization"] = accessToken;
+  $axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
 } else {
   $axios.defaults.headers.common["Authorization"] = null;
   delete $axios.defaults.headers.common["Authorization"];
@@ -35,7 +35,7 @@ $axios.interceptors.request.use(
     // const accessToken = Cookies.get(config.accessTokenStorageKey);
     const accessToken = localStorage.getItem('token')
     if (accessToken) {
-      axiosConfig.headers.Authorization = accessToken;
+      axiosConfig.headers.Authorization = "Bearer "+ accessToken;
     } else {
       axiosConfig.headers.Authorization = null;
       delete axiosConfig.headers.Authorization;

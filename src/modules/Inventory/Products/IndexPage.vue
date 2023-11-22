@@ -7,9 +7,9 @@
       @edit="edit"
       @view="view"
       @delete="deleteRecord"
-      :currentPage="perPage"
+      :currentPage="currentPage"
       :totalRows="totalRows"
-      :perPag="perPage"
+      :perPage="perPage"
       :pages="pages"
       @page-changed="list"
     >
@@ -102,7 +102,8 @@ export default {
           this.totalRecords = resPayload.total;
           this.currentPage = resPayload.current_page;
           this.perPage = resPayload.per_page;
-          this.pages = Math.ceil(resPayload.total / resPayload.per_page);
+          // this.pages = Math.ceil(resPayload.total / resPayload.per_page);
+          this.pages = resPayload.last_page
           // console.log(this.pages, "kkk");
           console.log(res.data);
           this.busy = false;

@@ -12,7 +12,10 @@
         @view="getWeightPricing($event, 'view')"
         @edit="getWeightPricing($event, 'edit')"
         @delete="deleteRecord"
-        :showBaseCount="false"
+        :currentPage="currentPage"
+        :totalRows="totalRows"
+        :perPage="perPage"
+        :pages="pages"
       >
         <template #button>
           <button class="peppi-btn peppi-primary" @click="toggleModal">
@@ -83,8 +86,16 @@ export default {
       this.busy = true;
       this.$request(`admin/weight-pricings`)
         .then((res) => {
-          let resPayload = res.data.weightPricings;
-          this.items = resPayload;
+          let resPayload = res.data;
+          this.items = resPayload.weightPricings;
+          this.totalRows = resPayload.total;
+          this.showFrom = resPayload.from;
+          this.showTo = resPayload.to;
+          this.totalRecords = resPayload.total;
+          this.currentPage = resPayload.current_page;
+          this.perPage = resPayload.per_page;
+          // this.pages = Math.ceil(resPayload.total / resPayload.per_page);
+          this.pages = resPayload.last_page
           console.log(res.data);
           this.busy = false;
         })
