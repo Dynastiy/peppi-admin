@@ -16,6 +16,7 @@
         :totalRows="totalRows"
         :perPage="perPage"
         :pages="pages"
+        @page-changed="list"
       >
         <template #button>
           <button class="peppi-btn peppi-primary" @click="toggleModal">
@@ -82,12 +83,12 @@ export default {
   },
 
   methods: {
-    list() {
+    list(page = 1) {
       this.busy = true;
-      this.$request(`admin/weight-pricings`)
+      this.$request(`admin/weight-pricings?page=${page}`)
         .then((res) => {
-          let resPayload = res.data;
-          this.items = resPayload.weightPricings;
+          let resPayload = res.data.weightPricings;
+          this.items = resPayload.data;
           this.totalRows = resPayload.total;
           this.showFrom = resPayload.from;
           this.showTo = resPayload.to;
