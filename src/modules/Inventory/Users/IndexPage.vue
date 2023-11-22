@@ -1,6 +1,18 @@
 <template>
   <div>
-    <table-component :items="items" :fields="fields" :disableEditAction="true" :disableDeleteAction="true" @view="view"> </table-component>
+    <table-component
+      :items="items"
+      :fields="fields"
+      :disableEditAction="true"
+      :disableDeleteAction="true"
+      @view="view"
+      :currentPage="perPage"
+      :totalRows="totalRows"
+      :perPag="perPage"
+      :pages="pages"
+      @page-changed="list"
+    >
+    </table-component>
   </div>
 </template>
 
@@ -14,26 +26,30 @@ export default {
       fields: [
         {
           key: "username",
-          label: "Username"
+          label: "Username",
         },
-        
+
         {
           key: "email",
-          label: "Email"
+          label: "Email",
         },
-        
+
         {
           key: "created_at",
-          label: "Date Joined"
+          label: "Date Joined",
         },
 
         {
           key: "actions",
-          label: ""
-        }
-
-
-      ]
+          label: "",
+        },
+      ],
+      currentPage: null,
+      perPage: null,
+      showFrom: null,
+      showTo: null,
+      totalRecords: null,
+      pages: null,
     };
   },
 
@@ -105,9 +121,9 @@ export default {
     },
   },
 
-  beforeMount(){
-    this.list()
-  }
+  beforeMount() {
+    this.list();
+  },
 };
 </script>
 

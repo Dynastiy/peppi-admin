@@ -10,6 +10,11 @@
       @view="viewOrder"
       :disableEditAction="true"
       :disableDeleteAction="true"
+      :currentPage="perPage"
+      :totalRows="totalRows"
+      :perPag="perPage"
+      :pages="pages"
+      @page-changed="list"
     >
     </table-component>
   </div>
@@ -73,6 +78,13 @@ export default {
         { key: "dots", label: "" },
       ],
       busy: false,
+      totalRows: null,
+      currentPage: null,
+      perPage: null,
+      showFrom: null,
+      showTo: null,
+      totalRecords: null,
+      pages: null,
     };
   },
 

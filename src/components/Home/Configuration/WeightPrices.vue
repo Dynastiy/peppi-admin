@@ -12,6 +12,7 @@
         @view="getWeightPricing($event, 'view')"
         @edit="getWeightPricing($event, 'edit')"
         @delete="deleteRecord"
+        :showBaseCount="false"
       >
         <template #button>
           <button class="peppi-btn peppi-primary" @click="toggleModal">

@@ -5,12 +5,13 @@
       :busy="busy"
       :fields="fields"
       @view="viewOrder"
-      :currentPage="currentPage"
-      :perPage="perPage"
-      :pages="pages"
-      @page-changed="filter($event)"
       :disableEditAction="true"
       :disableDeleteAction="true"
+      :currentPage="perPage"
+      :totalRows="totalRows"
+      :perPage="perPage"
+      :pages="pages"
+      @page-changed="list"
     >
     </table-component>
   </div>
@@ -57,10 +58,13 @@ export default {
       ],
 
       busy: false,
-      totalRows: 0,
-      currentPage: 1,
-      pages: 10,
-      perPage: 0
+      totalRows: null,
+      currentPage: null,
+      perPage: null,
+      showFrom: null,
+      showTo: null,
+      totalRecords: null,
+      pages: null,
     };
   },
 

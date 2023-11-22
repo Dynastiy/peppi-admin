@@ -302,8 +302,8 @@
       <template #cell(product_img)="data">
         <img
           class="tw-w-[30px] tw-h-[30px] tw-p-[2px] tw-border tw-border-primary tw-object-cover tw-object-center tw-rounded-full"
-          :src="`${data.item.images[0].url}`"
-          alt=""
+          :src="data.item.images.length > 0 ? `${data.item.images[0].url}` : require('@/assets/img/peppi-icon.png')"
+          :alt="data.item.name"
         />
       </template>
 
@@ -390,7 +390,6 @@ export default {
     },
     perPage: {
       type: Number,
-      default: 10,
     },
     /**
      * @description

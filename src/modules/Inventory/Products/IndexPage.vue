@@ -1,6 +1,18 @@
 <template>
   <div>
-    <table-component :items="items" :fields="fields" :busy="busy" @edit="edit" @view="view" @delete="deleteRecord">
+    <table-component
+      :items="items"
+      :fields="fields"
+      :busy="busy"
+      @edit="edit"
+      @view="view"
+      @delete="deleteRecord"
+      :currentPage="perPage"
+      :totalRows="totalRows"
+      :perPag="perPage"
+      :pages="pages"
+      @page-changed="list"
+    >
       <template #button>
         <button
           class="peppi-btn peppi-primary"
@@ -41,7 +53,12 @@ export default {
           key: "price",
           label: "Price",
           formatter: (item) => {
-            return item ? Number(item).toLocaleString('en-US', { style: 'currency', currency:  'NGN'}) : "NGN 0.00";
+            return item
+              ? Number(item).toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "NGN",
+                })
+              : "NGN 0.00";
           },
         },
 
@@ -74,8 +91,8 @@ export default {
   methods: {
     list(page = 1) {
       this.busy = true;
-      console.log(page, 'kkk');
-      this.$request(`admin/products?page=`+page)
+      console.log(page, "kkk");
+      this.$request(`admin/products?page=` + page)
         .then((res) => {
           let resPayload = res.data.products;
           this.items = resPayload.data;
@@ -85,7 +102,7 @@ export default {
           this.totalRecords = resPayload.total;
           this.currentPage = resPayload.current_page;
           this.perPage = resPayload.per_page;
-          this.pages = Math.ceil(resPayload.total / resPayload.per_page)
+          this.pages = Math.ceil(resPayload.total / resPayload.per_page);
           // console.log(this.pages, "kkk");
           console.log(res.data);
           this.busy = false;
@@ -97,11 +114,11 @@ export default {
     },
 
     view(e) {
-      this.$router.push(`/product/${e.id}`)
+      this.$router.push(`/product/${e.id}`);
     },
 
     edit(e) {
-      this.$router.push(`/product/${e.id}/edit`)
+      this.$router.push(`/product/${e.id}/edit`);
     },
 
     deleteProduct(value) {

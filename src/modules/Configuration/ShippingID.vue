@@ -37,6 +37,7 @@
         @view="getRecord($event, 'view')"
         @edit="getRecord($event, 'edit')"
         @delete="deleteRecord"
+        :showBaseCount="false"
       >
         <template #button>
           <button class="peppi-btn peppi-primary" @click="toggleModal">
