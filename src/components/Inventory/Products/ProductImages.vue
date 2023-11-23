@@ -1,6 +1,6 @@
 <template>
   <div class="tw-flex tw-gap-4">
-    <div class="tw-mb-4 tw-w-full">
+    <div class="tw-mb-4 tw-w-full" v-if="dat.video">
       <video :src="data.video.url" style="width: 100%" controls></video>
     </div>
     <span class="tw-flex tw-flex-wrap tw-gap-4">
