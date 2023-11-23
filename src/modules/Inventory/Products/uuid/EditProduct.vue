@@ -120,11 +120,11 @@
             </div>
           </div>
           <div class="right-data-content tw-flex tw-flex-col tw-space-y-3">
-            <!-- <div>
+            <div>
               <h4
                 class="product-create-header tw-flex tw-items-center tw-space-x-1 tw-mb-0"
               >
-                <span>Product Images</span>
+                <span>Product Gallery</span>
                 <el-tooltip class="item" effect="light" placement="right-end">
                   <div slot="content">
                     Select four images(jpg/png files with a size less than
@@ -133,6 +133,7 @@
                   <i-icon icon="ic:baseline-help-outline" />
                 </el-tooltip>
               </h4>
+              <label for="" style="font-size: 12px">Product Images</label>
               <span class="tw-block tw-text-red-600 tw-text-xs">
                 *The first selected image is the featured image.
               </span>
@@ -151,25 +152,99 @@
                   </label>
                 </div>
 
-                <div class="tw-mt-3">
-                  <span
-                    v-for="(item, idx) in photos"
-                    :key="idx"
-                    class="tw-flex tw-items-center tw-space-x-2"
-                  >
-                    <span class="tw-text-xs">{{
-                      item.slice(0, 14) + "..."
-                    }}</span>
-                    <span role="button" @click="removePhoto(idx)">
-                      <i-icon
-                        icon="carbon:close-outline"
-                        class="tw-font-bold tw-text-red-600 tw-text-xs"
-                      />
-                    </span>
-                  </span>
+                <!-- <div class="tw-mt-3">
+              <span
+                v-for="(item, idx) in photos"
+                :key="idx"
+                class="tw-flex tw-items-center tw-space-x-2"
+              >
+                <span class="tw-text-xs">{{ item.slice(0, 14) + "..." }}</span>
+                <span role="button" @click="removePhoto(idx)">
+                  <i-icon
+                    icon="carbon:close-outline"
+                    class="tw-font-bold tw-text-red-600 tw-text-xs"
+                  />
+                </span>
+              </span>
+            </div> -->
+
+                <div class="tw-grid tw-grid-cols-4 tw-gap-3 tw-mt-3">
+                  <div v-for="(item, idx) in photos" :key="idx">
+                    <div class="tw-shadow tw-p-2">
+                      <img :src="item" alt="" />
+                      <div class="tw-flex tw-justify-end tw-gap-2">
+                        <span
+                          role="button"
+                          class="tw-text-red-600 tw-text-md"
+                          @click="removePhoto(idx)"
+                        >
+                          <i-icon icon="fluent:delete-12-regular" />
+                        </span>
+                        <a
+                          :href="item"
+                          class="tw-text-amber-600 tw-text-md"
+                          target="_blank"
+                        >
+                          <i-icon icon="iconamoon:eye" />
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div> -->
+            </div>
+            <div>
+              <label for="" style="font-size: 12px"
+                >Product Video Desription</label
+              >
+              <!-- <div class="add-file" role="button">
+            <input
+              @change="handleUpload"
+              type="file"
+              accept="image/*"
+              id="choose-file"
+              name="choose-file"
+              class="tw-p-0"
+            />
+            <label class="m-0" for="choose-file"
+              ><i-icon icon="iconoir:plus" class="file--icons" />
+            </label>
+          </div> -->
+              <input
+                type="file"
+                name=""
+                id=""
+                @change="handleVideoUpload"
+                accept="video/*"
+              />
+              <div
+                class="tw-flex tw-justify-end tw-gap-2 tw-mt-2"
+                v-if="videoUrl !== null"
+              >
+                <a
+                  :href="videoUrl"
+                  class="tw-text-amber-600 tw-text-sm"
+                  target="_blank"
+                >
+                  Preview Video
+                </a>
+              </div>
+              <!-- <div class="tw-mt-3">
+            <span
+              v-for="(item, idx) in videos"
+              :key="idx"
+              class="tw-flex tw-items-center tw-space-x-2"
+            >
+              <span class="tw-text-xs">{{ item.slice(0, 14) + "..." }}</span>
+              <span role="button" @click="removeVideo(idx)">
+                <i-icon
+                  icon="carbon:close-outline"
+                  class="tw-font-bold tw-text-red-600 tw-text-xs"
+                />
+              </span>
+            </span>
+          </div> -->
+            </div>
             <div></div>
             <div>
               <h4 class="product-create-header">Inventory</h4>
@@ -219,7 +294,9 @@ export default {
         price: "",
         photos: [],
         weight: "",
+        video: "",
       },
+      videoUrl: null,
       customToolbar: [
         ["bold", "italic", "underline"],
         [{ list: "ordered" }, { list: "bullet" }],
@@ -251,16 +328,15 @@ export default {
       const formData = new FormData();
       formData.append("name", this.dataObj.name);
 
-      // for (const image of this.dataObj.photos) {
-      //   formData.append("photos[]", image);
-      // }
+      for (const image of this.dataObj.photos) {
+        formData.append("photos[]", image);
+      }
 
       // for (const vid of this.videos) {
       //   formData.append("video[]", vid);
       // }
 
-      // formData.append("video", this.dataObj.video);
-
+      formData.append("video", this.dataObj.video);
       formData.append("description", this.dataObj.description);
       formData.append("price", this.dataObj.price);
       formData.append("weight", this.dataObj.weight);
@@ -281,7 +357,7 @@ export default {
             "Product updated succesfully.",
             "success"
           );
-          this.getProduct()
+          this.getProduct();
           this.busy = false;
         })
         .catch((err) => {
@@ -325,9 +401,29 @@ export default {
     },
 
     handleUpload() {
+      if (this.photos.length < 4) {
+        const input = event.target;
+        this.dataObj.photos.push(input.files[0]);
+        console.log(input.files[0], "kkk");
+        var photo = null;
+        if (input.files.length > 0) {
+          var src = URL.createObjectURL(input.files[0]);
+          photo = src;
+          this.isActive = false;
+        }
+        this.photos.push(photo);
+      }
+    },
+
+    handleVideoUpload() {
       const input = event.target;
-      this.dataObj.photos.push(input.files[0]);
-      this.photos.push(input.files[0].name);
+      this.dataObj.video = input.files[0];
+      console.log(input.files[0].name, "kkk");
+      if (input.files.length > 0) {
+        var src = URL.createObjectURL(input.files[0]);
+        this.videoUrl = src;
+        this.isActive = false;
+      }
     },
 
     removePhoto(value) {
@@ -381,14 +477,23 @@ export default {
   watch: {
     item: {
       handler(val) {
-        this.dataObj = {
-          category_ids: val.categories,
-          description: val.description,
-          availability: val.availability,
-          name: val.name,
-          price: val.price,
-          weight: val.weight,
-        };
+        if (val) {
+          this.dataObj = {
+            category_ids: val.categories,
+            description: val.description,
+            availability: val.availability,
+            name: val.name,
+            price: val.price,
+            weight: val.weight,
+            video: val.video,
+            photos: val.images,
+          };
+          let images = val.images;
+          for (const image of images) {
+            this.photos.push(image.url);
+          }
+          this.videoUrl = val.video === null ? val.video : val.video.url  
+        }
       },
       immediate: true,
     },
